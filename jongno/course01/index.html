@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <style>
         #map {
-            width: 837px;
+            width: 909px;
             height: 616px;
         }
         </style>
@@ -56,7 +56,7 @@
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[37.5778980659961,126.96884460498379],[37.580868770739976,126.97391984138336]]);
+        }).fitBounds([[37.57290967260224,126.96289524934448],[37.58496129640599,126.98525913599673]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/qgis2web/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -165,14 +165,7 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(String(feature.properties['fid']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['COURSE_NO'] !== null ? autolinker.link(String(feature.properties['COURSE_NO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">THEME</th>\
-                        <td>' + (feature.properties['THEME'] !== null ? autolinker.link(String(feature.properties['THEME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>THEME</strong><br />' + (feature.properties['THEME'] !== null ? autolinker.link(String(feature.properties['THEME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">START_PT</th>\
@@ -191,24 +184,8 @@
                         <td class="visible-with-data" id="WALK_TIME">' + (feature.properties['WALK_TIME'] !== null ? autolinker.link(String(feature.properties['WALK_TIME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['DIRECTION'] !== null ? autolinker.link(String(feature.properties['DIRECTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['MEMO'] !== null ? autolinker.link(String(feature.properties['MEMO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">VIA_PT</th>\
-                        <td class="visible-with-data" id="VIA_PT">' + (feature.properties['VIA_PT'] !== null ? autolinker.link(String(feature.properties['VIA_PT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
                         <th scope="row">DESCRIPTION</th>\
                         <td class="visible-with-data" id="DESCRIPTION">' + (feature.properties['DESCRIPTION'] !== null ? autolinker.link(String(feature.properties['DESCRIPTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['ROUTE_TYPE'] !== null ? autolinker.link(String(feature.properties['ROUTE_TYPE']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['WEB_LABEL'] !== null ? autolinker.link(String(feature.properties['WEB_LABEL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -218,116 +195,30 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style___1_0(feature) {
-            switch(String(feature.properties['ROUTE_TYPE'])) {
-                case 'ACCESS':
-                    return {
+        function style___1_0() {
+            return {
                 pane: 'pane___1',
                 opacity: 1,
-                color: 'rgba(0,102,204,1.0)',
+                color: 'rgba(0,128,0,1.0)',
                 dashArray: '',
                 lineCap: 'round',
                 lineJoin: 'round',
                 weight: 7.0,
                 fillOpacity: 0,
                 interactive: true,
-            }
-                    break;
-                case 'RETURN':
-                    return {
-                pane: 'pane___1',
-                opacity: 1,
-                color: 'rgba(230,126,34,1.0)',
-                dashArray: '',
-                lineCap: 'round',
-                lineJoin: 'round',
-                weight: 7.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
-                    break;
-                case 'WALK':
-                    return {
-                pane: 'pane___1',
-                opacity: 1,
-                color: 'rgba(34,139,34,1.0)',
-                dashArray: '',
-                lineCap: 'round',
-                lineJoin: 'round',
-                weight: 7.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
-                    break;
-                default:
-                    return {
-                pane: 'pane___1',
-                opacity: 1,
-                color: 'rgba(202,79,104,1.0)',
-                dashArray: '',
-                lineCap: 'round',
-                lineJoin: 'round',
-                weight: 8.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
-                    break;
             }
         }
-        function style___1_1(feature) {
-            switch(String(feature.properties['ROUTE_TYPE'])) {
-                case 'ACCESS':
-                    return {
+        function style___1_1() {
+            return {
                 pane: 'pane___1',
                 opacity: 1,
-                color: 'rgba(0,102,204,1.0)',
+                color: 'rgba(0,128,0,1.0)',
                 dashArray: '',
                 lineCap: 'round',
                 lineJoin: 'round',
                 weight: 8.0,
                 fillOpacity: 0,
                 interactive: true,
-            }
-                    break;
-                case 'RETURN':
-                    return {
-                pane: 'pane___1',
-                opacity: 1,
-                color: 'rgba(230,126,34,1.0)',
-                dashArray: '',
-                lineCap: 'round',
-                lineJoin: 'round',
-                weight: 8.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
-                    break;
-                case 'WALK':
-                    return {
-                pane: 'pane___1',
-                opacity: 1,
-                color: 'rgba(34,139,34,1.0)',
-                dashArray: '',
-                lineCap: 'round',
-                lineJoin: 'round',
-                weight: 8.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
-                    break;
-                default:
-                    return {
-                pane: 'pane___1',
-                opacity: 1,
-                color: 'rgba(202,79,104,1.0)',
-                dashArray: '',
-                lineCap: 'round',
-                lineJoin: 'round',
-                weight: 10.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
-                    break;
             }
         }
         map.createPane('pane___1');
@@ -357,42 +248,20 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(String(feature.properties['fid']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['POI_ID'] !== null ? autolinker.link(String(feature.properties['POI_ID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['COURSE_NO'] !== null ? autolinker.link(String(feature.properties['COURSE_NO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2"><strong>POI_NO</strong><br />' + (feature.properties['POI_NO'] !== null ? autolinker.link(String(feature.properties['POI_NO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['NAME'] !== null ? autolinker.link(String(feature.properties['NAME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CATEGORY'] !== null ? autolinker.link(String(feature.properties['CATEGORY']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['LABEL_YN'] !== null ? autolinker.link(String(feature.properties['LABEL_YN']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['MEMO'] !== null ? autolinker.link(String(feature.properties['MEMO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
                         <th scope="row">DESCRIPTION</th>\
                         <td class="visible-with-data" id="DESCRIPTION">' + (feature.properties['DESCRIPTION'] !== null ? autolinker.link(String(feature.properties['DESCRIPTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['URL'] !== null ? autolinker.link(String(feature.properties['URL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <th scope="row">URL</th>\
+                        <td class="visible-with-data" id="URL">' + (feature.properties['URL'] !== null ? autolinker.link(String(feature.properties['URL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['PHOTO'] !== null ? autolinker.link(String(feature.properties['PHOTO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <th scope="row">PHOTO</th>\
+                        <td class="visible-with-data" id="PHOTO">' + (feature.properties['PHOTO'] !== null ? autolinker.link(String(feature.properties['PHOTO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">WEB_LABEL</th>\
-                        <td>' + (feature.properties['WEB_LABEL'] !== null ? autolinker.link(String(feature.properties['WEB_LABEL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td class="visible-with-data" id="WEB_LABEL">' + (feature.properties['WEB_LABEL'] !== null ? autolinker.link(String(feature.properties['WEB_LABEL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -401,11 +270,16 @@
 			});
 			layer.bindPopup(content, { maxHeight: 400 });
         }
-
-        function style___2_0() {
-            return {
+        function style___2_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp___2rule0_eval_expression(context)) {
+                  return {
                 pane: 'pane___2',
-                radius: 7.0,
+                radius: 6.6,
                 opacity: 1,
                 color: 'rgba(34,139,34,1.0)',
                 dashArray: '',
@@ -416,6 +290,26 @@
                 fillOpacity: 1,
                 fillColor: 'rgba(255,255,255,1.0)',
                 interactive: true,
+            };
+                }
+                else if (exp___2rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane___2',
+                radius: 7.2,
+                opacity: 1,
+                color: 'rgba(0,120,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,80,1.0)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
             }
         }
         map.createPane('pane___2');
@@ -439,8 +333,8 @@
         bounds_group.addLayer(layer___2);
         map.addLayer(layer___2);
         var overlaysTree = [
-            {label: '<img src="legend/__2.png" /> 종로구_명소', layer: layer___2},
-            {label: '종로구_탐방코스<br /><table><tr><td style="text-align: center;"><img src="legend/__1_ACCESS0.png" /></td><td>ACCESS</td></tr><tr><td style="text-align: center;"><img src="legend/__1_RETURN1.png" /></td><td>RETURN</td></tr><tr><td style="text-align: center;"><img src="legend/__1_WALK2.png" /></td><td>WALK</td></tr><tr><td style="text-align: center;"><img src="legend/__1_3.png" /></td><td></td></tr></table>', layer: layer___1},
+            {label: '종로구_명소<br /><table><tr><td style="text-align: center;"><img src="legend/__2_MAIN0.png" /></td><td>MAIN</td></tr><tr><td style="text-align: center;"><img src="legend/__2_RECOMMEND1.png" /></td><td>RECOMMEND</td></tr></table>', layer: layer___2},
+            {label: '<img src="legend/__1.png" /> 종로구_탐방코스', layer: layer___1},
             {label: "OpenStreetMap", layer: layer_OpenStreetMap_0},]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
@@ -459,7 +353,7 @@
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((layer.feature.properties['WEB_LABEL'] !== null?String('<div style="color: #006628; font-size: 9pt; font-weight: bold; font-family: \'맑은 고딕\', sans-serif;">' + layer.feature.properties['WEB_LABEL']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css___2'});
+            layer.bindTooltip((exp_label___2_eval_expression(context) !== null?String('<div style="color: #0046a0; font-size: 9pt; font-weight: bold; font-family: \'맑은 고딕\', sans-serif;">' + exp_label___2_eval_expression(context)) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css___2'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;

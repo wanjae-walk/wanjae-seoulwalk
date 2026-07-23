@@ -754,3 +754,56 @@ function fnc__specialcol_(values, context) {
 function fnc_project_color(values, context) {
     return false;
 };
+
+
+
+function exp_label___2_eval_expression(context) {
+    // coalesce(WEB_LABEL, NAME)
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return fnc_coalesce([feature.properties['WEB_LABEL'] ,feature.properties['NAME'] ], context);
+    } else {
+        return fnc_coalesce([feature['WEB_LABEL'] ,feature['NAME'] ], context);
+    }
+}
+
+
+function exp_label___2_eval_expression(context) {
+    // coalesce(WEB_LABEL, NAME)
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return fnc_coalesce([feature.properties['WEB_LABEL'] ,feature.properties['NAME'] ], context);
+    } else {
+        return fnc_coalesce([feature['WEB_LABEL'] ,feature['NAME'] ], context);
+    }
+}
+
+
+function exp___2rule0_eval_expression(context) {
+    // POI_TYPE = 'MAIN'
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return (feature.properties['POI_TYPE']  == 'MAIN');
+    } else {
+        return (feature['POI_TYPE']  == 'MAIN');
+    }
+}
+
+
+function exp___2rule1_eval_expression(context) {
+    // POI_TYPE = 'RECOMMEND'
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return (feature.properties['POI_TYPE']  == 'RECOMMEND');
+    } else {
+        return (feature['POI_TYPE']  == 'RECOMMEND');
+    }
+}
