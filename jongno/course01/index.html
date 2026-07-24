@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <style>
         #map {
-            width: 909px;
+            width: 930px;
             height: 616px;
         }
         </style>
@@ -37,7 +37,7 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet.photon.js"></script>
         <script src="data/__1.js"></script>
-        <script src="data/__2.js"></script>
+        <script src="data/__V2_2.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -56,7 +56,7 @@
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[37.57290967260224,126.96289524934448],[37.58496129640599,126.98525913599673]]);
+        }).fitBounds([[37.57362974058897,126.96025020409049],[37.585409255174454,126.98261458694223]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/qgis2web/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -163,31 +163,47 @@
                 },
                 mouseover: highlightFeature,
             });
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2"><strong>THEME</strong><br />' + (feature.properties['THEME'] !== null ? autolinker.link(String(feature.properties['THEME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">START_PT</th>\
-                        <td class="visible-with-data" id="START_PT">' + (feature.properties['START_PT'] !== null ? autolinker.link(String(feature.properties['START_PT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">END_PT</th>\
-                        <td class="visible-with-data" id="END_PT">' + (feature.properties['END_PT'] !== null ? autolinker.link(String(feature.properties['END_PT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">DIST_KM</th>\
-                        <td class="visible-with-data" id="DIST_KM">' + (feature.properties['DIST_KM'] !== null ? autolinker.link(String(feature.properties['DIST_KM']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">WALK_TIME</th>\
-                        <td class="visible-with-data" id="WALK_TIME">' + (feature.properties['WALK_TIME'] !== null ? autolinker.link(String(feature.properties['WALK_TIME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">DESCRIPTION</th>\
-                        <td class="visible-with-data" id="DESCRIPTION">' + (feature.properties['DESCRIPTION'] !== null ? autolinker.link(String(feature.properties['DESCRIPTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
+
+
+
+
+
+ 
+var popupContent =
+    '<div style="font-family:\'맑은 고딕\', sans-serif; width:300px;">' +
+
+        '<div style="font-size:18px; font-weight:bold; color:#174a7e; margin-bottom:10px;">' +
+            (feature.properties['THEME'] !== null
+                ? feature.properties['THEME']
+                : '') +
+        '</div>' +
+
+        '<div style="font-size:13px; color:#666; margin-bottom:8px;">' +
+            (feature.properties['START_PT'] !== null ? feature.properties['START_PT'] : '') +
+            ' → ' +
+            (feature.properties['END_PT'] !== null ? feature.properties['END_PT'] : '') +
+        '</div>' +
+
+        '<div style="font-size:13px; color:#666; margin-bottom:10px;">' +
+
+
+(feature.properties['DIST_KM'] !== null ? feature.properties['DIST_KM'] + 'km' : '') +
+' · 약 ' +
+(feature.properties['WALK_TIME'] !== null ? feature.properties['WALK_TIME'] + '분' : '') +
+        '</div>' +
+
+        '<div style="font-size:14px; line-height:1.7; color:#222;">' +
+            (feature.properties['DESCRIPTION'] !== null
+                ? feature.properties['DESCRIPTION']
+                : '') +
+        '</div>' +
+    '</div>';
+
+
+
+
+
+
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
 				addClassToPopupIfMedia(content, e.popup);
@@ -235,7 +251,7 @@
         });
         bounds_group.addLayer(layer___1);
         map.addLayer(layer___1);
-        function pop___2(feature, layer) {
+        function pop___V2_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -246,39 +262,43 @@
                 },
                 mouseover: highlightFeature,
             });
-            var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">DESCRIPTION</th>\
-                        <td class="visible-with-data" id="DESCRIPTION">' + (feature.properties['DESCRIPTION'] !== null ? autolinker.link(String(feature.properties['DESCRIPTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">URL</th>\
-                        <td class="visible-with-data" id="URL">' + (feature.properties['URL'] !== null ? autolinker.link(String(feature.properties['URL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">PHOTO</th>\
-                        <td class="visible-with-data" id="PHOTO">' + (feature.properties['PHOTO'] !== null ? autolinker.link(String(feature.properties['PHOTO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">WEB_LABEL</th>\
-                        <td class="visible-with-data" id="WEB_LABEL">' + (feature.properties['WEB_LABEL'] !== null ? autolinker.link(String(feature.properties['WEB_LABEL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
+
+
+
+
+var popupContent =
+    '<div style="font-family:\'맑은 고딕\', sans-serif; width:300px;">' +
+
+'<div style="font-size:18px; font-weight:bold; color:#174a7e; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #d9d9d9;">' +
+
+            (feature.properties['WEB_LABEL'] !== null
+                ? feature.properties['WEB_LABEL']
+                : '') +
+        '</div>' +
+        '<div style="font-size:14px; line-height:1.7; color:#222;">' +
+            (feature.properties['DESCRIPTION'] !== null
+                ? feature.properties['DESCRIPTION']
+                : '') +
+        '</div>' +
+    '</div>';
+
+
+
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
 				addClassToPopupIfMedia(content, e.popup);
 			});
 			layer.bindPopup(content, { maxHeight: 400 });
         }
-        function style___2_0(feature) {
+        function style___V2_2_0(feature) {
             var context = {
                 feature: feature,
                 variables: {}
             };
             // Start of if blocks and style check logic
-            if (exp___2rule0_eval_expression(context)) {
+            if (exp___V2_2rule0_eval_expression(context)) {
                   return {
-                pane: 'pane___2',
+                pane: 'pane___V2_2',
                 radius: 6.6,
                 opacity: 1,
                 color: 'rgba(34,139,34,1.0)',
@@ -292,9 +312,9 @@
                 interactive: true,
             };
                 }
-                else if (exp___2rule1_eval_expression(context)) {
+                else if (exp___V2_2rule1_eval_expression(context)) {
                   return {
-                pane: 'pane___2',
+                pane: 'pane___V2_2',
                 radius: 7.2,
                 opacity: 1,
                 color: 'rgba(0,120,0,1.0)',
@@ -312,28 +332,28 @@
                 return {fill: false, stroke: false};
             }
         }
-        map.createPane('pane___2');
-        map.getPane('pane___2').style.zIndex = 402;
-        map.getPane('pane___2').style['mix-blend-mode'] = 'normal';
-        var layer___2 = new L.geoJson(json___2, {
+        map.createPane('pane___V2_2');
+        map.getPane('pane___V2_2').style.zIndex = 402;
+        map.getPane('pane___V2_2').style['mix-blend-mode'] = 'normal';
+        var layer___V2_2 = new L.geoJson(json___V2_2, {
             attribution: '',
             interactive: true,
-            dataVar: 'json___2',
-            layerName: 'layer___2',
-            pane: 'pane___2',
-            onEachFeature: pop___2,
+            dataVar: 'json___V2_2',
+            layerName: 'layer___V2_2',
+            pane: 'pane___V2_2',
+            onEachFeature: pop___V2_2,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style___2_0(feature));
+                return L.circleMarker(latlng, style___V2_2_0(feature));
             },
         });
-        bounds_group.addLayer(layer___2);
-        map.addLayer(layer___2);
+        bounds_group.addLayer(layer___V2_2);
+        map.addLayer(layer___V2_2);
         var overlaysTree = [
-            {label: '종로구_명소<br /><table><tr><td style="text-align: center;"><img src="legend/__2_MAIN0.png" /></td><td>MAIN</td></tr><tr><td style="text-align: center;"><img src="legend/__2_RECOMMEND1.png" /></td><td>RECOMMEND</td></tr></table>', layer: layer___2},
+            {label: '종로구_명소_V2<br /><table><tr><td style="text-align: center;"><img src="legend/__V2_2_MAIN0.png" /></td><td>MAIN</td></tr><tr><td style="text-align: center;"><img src="legend/__V2_2_RECOMMEND1.png" /></td><td>RECOMMEND</td></tr></table>', layer: layer___V2_2},
             {label: '<img src="legend/__1.png" /> 종로구_탐방코스', layer: layer___1},
             {label: "OpenStreetMap", layer: layer_OpenStreetMap_0},]
         var lay = L.control.layers.tree(null, overlaysTree,{
@@ -348,27 +368,27 @@
         lay.addTo(map);
         setBounds();
         var i = 0;
-        layer___2.eachLayer(function(layer) {
+        layer___V2_2.eachLayer(function(layer) {
             var context = {
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((exp_label___2_eval_expression(context) !== null?String('<div style="color: #0046a0; font-size: 9pt; font-weight: bold; font-family: \'맑은 고딕\', sans-serif;">' + exp_label___2_eval_expression(context)) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css___2'});
+            layer.bindTooltip((exp_label___V2_2_eval_expression(context) !== null?String('<div style="color: #0046a0; font-size: 9pt; font-weight: bold; font-family: \'맑은 고딕\', sans-serif;">' + exp_label___V2_2_eval_expression(context)) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css___V2_2'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
               addLabel(layer, i);
               i++;
         });
-        resetLabels([layer___1,layer___2]);
+        resetLabels([layer___1,layer___V2_2]);
         map.on("zoomend", function(){
-            resetLabels([layer___1,layer___2]);
+            resetLabels([layer___1,layer___V2_2]);
         });
         map.on("layeradd", function(){
-            resetLabels([layer___1,layer___2]);
+            resetLabels([layer___1,layer___V2_2]);
         });
         map.on("layerremove", function(){
-            resetLabels([layer___1,layer___2]);
+            resetLabels([layer___1,layer___V2_2]);
         });
         </script>
     </body>
