@@ -17,10 +17,41 @@
             width: 1158px;
             height: 616px;
         }
-        </style>
+        
+.map-nav{
+position:fixed;
+top:12px;
+right:12px;
+z-index:9999;
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+.map-nav a{
+display:block;
+padding:10px 14px;
+background:rgba(255,255,255,.95);
+border:1px solid #174a7e;
+border-radius:8px;
+color:#174a7e;
+font-family:"Noto Sans KR","Malgun Gothic",sans-serif;
+font-size:13px;
+font-weight:bold;
+text-decoration:none;
+box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+.map-nav a:hover{background:#174a7e;color:#fff;}
+
+</style>
         <title></title>
     </head>
     <body>
+
+<div class="map-nav">
+<a href="../index.html">← 종로구 7개 코스</a>
+<a href="../../index.html">⌂ 서울 25개 자치구</a>
+</div>
+
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
