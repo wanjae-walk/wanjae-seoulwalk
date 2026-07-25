@@ -14,43 +14,34 @@
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <style>
         #map {
-            width: 1158px;
+            width: 912px;
             height: 616px;
         }
         
-.map-nav{
-position:fixed;
-top:12px;
-right:12px;
-z-index:9999;
-display:flex;
-flex-direction:column;
-gap:8px;
-}
-.map-nav a{
-display:block;
-padding:10px 14px;
-background:rgba(255,255,255,.95);
-border:1px solid #174a7e;
-border-radius:8px;
-color:#174a7e;
-font-family:"Noto Sans KR","Malgun Gothic",sans-serif;
-font-size:13px;
-font-weight:bold;
-text-decoration:none;
-box-shadow:0 2px 8px rgba(0,0,0,.2);
-}
-.map-nav a:hover{background:#174a7e;color:#fff;}
+        .map-nav{
+            position:fixed; top:12px; right:12px; z-index:9999;
+            display:flex; flex-direction:column; gap:8px;
+        }
+        .map-nav a{
+            display:block; padding:10px 14px;
+            background:rgba(255,255,255,.95);
+            border:1px solid #174a7e; border-radius:8px;
+            color:#174a7e;
+            font-family:"Noto Sans KR","맑은 고딕",sans-serif;
+            font-size:13px; font-weight:700; text-decoration:none;
+            box-shadow:0 2px 8px rgba(0,0,0,.20);
+        }
+        .map-nav a:hover{background:#174a7e;color:#fff;}
 
-</style>
+        </style>
         <title></title>
     </head>
     <body>
 
-<div class="map-nav">
-<a href="../index.html">← 종로구 7개 코스</a>
-<a href="../../index.html">⌂ 서울 25개 자치구</a>
-</div>
+        <div class="map-nav">
+            <a href="../index.html">← 종로구 7개 코스</a>
+            <a href="../../index.html">⌂ 서울 25개 자치구</a>
+        </div>
 
         <div id="map">
         </div>
@@ -68,7 +59,7 @@ box-shadow:0 2px 8px rgba(0,0,0,.2);
         <script src="js/labels.js"></script>
         <script src="js/leaflet.photon.js"></script>
         <script src="data/__1.js"></script>
-        <script src="data/__V2_2.js"></script>
+        <script src="data/__C01_2.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -87,7 +78,7 @@ box-shadow:0 2px 8px rgba(0,0,0,.2);
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[37.57069516342693,126.96325333040076],[37.58080783958813,126.98716669456729]]);
+        }).fitBounds([[37.56937006059591,126.96655444872833],[37.58138128425974,126.98891666985816]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/qgis2web/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -194,47 +185,25 @@ box-shadow:0 2px 8px rgba(0,0,0,.2);
                 },
                 mouseover: highlightFeature,
             });
-
-
-
-var popupContent =
-    '<div style="font-family:\'맑은 고딕\', sans-serif; width:300px;">' +
-
-        '<div style="font-size:18px; font-weight:bold; color:#174a7e; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #d9d9d9;">' +
-            (feature.properties['THEME'] !== null
-                ? feature.properties['THEME']
-                : '') +
-        '</div>' +
-
-        '<div style="font-size:13px; color:#666; margin-bottom:8px;">' +
-            (feature.properties['START_PT'] !== null
-                ? feature.properties['START_PT']
-                : '') +
-            ' → ' +
-            (feature.properties['END_PT'] !== null
-                ? feature.properties['END_PT']
-                : '') +
-        '</div>' +
-
-        '<div style="font-size:12.5px; color:#777; margin-bottom:10px;">' +
-            (feature.properties['DIST_KM'] !== null
-                ? feature.properties['DIST_KM'] + 'km'
-                : '') +
-            ' · 약 ' +
-            (feature.properties['WALK_TIME'] !== null
-                ? feature.properties['WALK_TIME'] + '분'
-                : '') +
-        '</div>' +
-
-        '<div style="font-size:14px; line-height:1.7; color:#222;">' +
-            (feature.properties['DESCRIPTION'] !== null
-                ? feature.properties['DESCRIPTION']
-                : '') +
-        '</div>' +
-
-    '</div>';
-
-
+            var popupContent =
+                '<div style="font-family:\'맑은 고딕\',sans-serif;width:300px;">' +
+                    '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">' +
+                        (feature.properties['THEME'] !== null ? feature.properties['THEME'] : '') +
+                    '</div>' +
+                    '<div style="font-size:13px;color:#666;margin-bottom:8px;">' +
+                        (feature.properties['START_PT'] !== null ? feature.properties['START_PT'] : '') +
+                        ' → ' +
+                        (feature.properties['END_PT'] !== null ? feature.properties['END_PT'] : '') +
+                    '</div>' +
+                    '<div style="font-size:12.5px;color:#777;margin-bottom:10px;">' +
+                        (feature.properties['DIST_KM'] !== null ? feature.properties['DIST_KM'] + 'km' : '') +
+                        ' · 약 ' +
+                        (feature.properties['WALK_TIME'] !== null ? feature.properties['WALK_TIME'] + '분' : '') +
+                    '</div>' +
+                    '<div style="font-size:14px;line-height:1.7;color:#222;">' +
+                        (feature.properties['DESCRIPTION'] !== null ? feature.properties['DESCRIPTION'] : '') +
+                    '</div>' +
+                '</div>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
 				addClassToPopupIfMedia(content, e.popup);
@@ -282,7 +251,7 @@ var popupContent =
         });
         bounds_group.addLayer(layer___1);
         map.addLayer(layer___1);
-        function pop___V2_2(feature, layer) {
+        function pop___C01_2(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -293,43 +262,47 @@ var popupContent =
                 },
                 mouseover: highlightFeature,
             });
+            var urlValue = feature.properties['URL'];
+            var urlHtml = '';
 
+            if (urlValue !== null &&
+                String(urlValue).trim() !== '' &&
+                String(urlValue).toUpperCase() !== 'NULL') {
+                urlHtml =
+                    '<div style="margin-top:12px;padding-top:10px;border-top:1px solid #e2e2e2;">' +
+                        '<a href="' + String(urlValue).replace(/"/g, '&quot;') + '" ' +
+                        'target="_blank" rel="noopener noreferrer" ' +
+                        'style="color:#174a7e;font-size:14px;font-weight:bold;text-decoration:none;">' +
+                        '🔗 공식 홈페이지' +
+                        '</a>' +
+                    '</div>';
+            }
 
-
-var popupContent =
-    '<div style="font-family:\'맑은 고딕\', sans-serif; width:300px;">' +
-
-        '<div style="font-size:18px; font-weight:bold; color:#174a7e; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #d9d9d9;">' +
-            (feature.properties['WEB_LABEL'] !== null
-                ? feature.properties['WEB_LABEL']
-                : '') +
-        '</div>' +
-
-        '<div style="font-size:14px; line-height:1.7; color:#222;">' +
-            (feature.properties['DESCRIPTION'] !== null
-                ? feature.properties['DESCRIPTION']
-                : '') +
-        '</div>' +
-
-    '</div>';
-
-
-
+            var popupContent =
+                '<div style="font-family:\'맑은 고딕\',sans-serif;width:300px;">' +
+                    '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">' +
+                        (feature.properties['WEB_LABEL'] !== null ? feature.properties['WEB_LABEL'] : '') +
+                    '</div>' +
+                    '<div style="font-size:14px;line-height:1.7;color:#222;">' +
+                        (feature.properties['DESCRIPTION'] !== null ? feature.properties['DESCRIPTION'] : '') +
+                    '</div>' +
+                    urlHtml +
+                '</div>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
 				addClassToPopupIfMedia(content, e.popup);
 			});
 			layer.bindPopup(content, { maxHeight: 400 });
         }
-        function style___V2_2_0(feature) {
+        function style___C01_2_0(feature) {
             var context = {
                 feature: feature,
                 variables: {}
             };
             // Start of if blocks and style check logic
-            if (exp___V2_2rule0_eval_expression(context)) {
+            if (exp___C01_2rule0_eval_expression(context)) {
                   return {
-                pane: 'pane___V2_2',
+                pane: 'pane___C01_2',
                 radius: 6.6,
                 opacity: 1,
                 color: 'rgba(34,139,34,1.0)',
@@ -343,9 +316,9 @@ var popupContent =
                 interactive: true,
             };
                 }
-                else if (exp___V2_2rule1_eval_expression(context)) {
+                else if (exp___C01_2rule1_eval_expression(context)) {
                   return {
-                pane: 'pane___V2_2',
+                pane: 'pane___C01_2',
                 radius: 7.2,
                 opacity: 1,
                 color: 'rgba(0,120,0,1.0)',
@@ -363,28 +336,28 @@ var popupContent =
                 return {fill: false, stroke: false};
             }
         }
-        map.createPane('pane___V2_2');
-        map.getPane('pane___V2_2').style.zIndex = 402;
-        map.getPane('pane___V2_2').style['mix-blend-mode'] = 'normal';
-        var layer___V2_2 = new L.geoJson(json___V2_2, {
+        map.createPane('pane___C01_2');
+        map.getPane('pane___C01_2').style.zIndex = 402;
+        map.getPane('pane___C01_2').style['mix-blend-mode'] = 'normal';
+        var layer___C01_2 = new L.geoJson(json___C01_2, {
             attribution: '',
             interactive: true,
-            dataVar: 'json___V2_2',
-            layerName: 'layer___V2_2',
-            pane: 'pane___V2_2',
-            onEachFeature: pop___V2_2,
+            dataVar: 'json___C01_2',
+            layerName: 'layer___C01_2',
+            pane: 'pane___C01_2',
+            onEachFeature: pop___C01_2,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style___V2_2_0(feature));
+                return L.circleMarker(latlng, style___C01_2_0(feature));
             },
         });
-        bounds_group.addLayer(layer___V2_2);
-        map.addLayer(layer___V2_2);
+        bounds_group.addLayer(layer___C01_2);
+        map.addLayer(layer___C01_2);
         var overlaysTree = [
-            {label: '종로구_명소_V2<br /><table><tr><td style="text-align: center;"><img src="legend/__V2_2_MAIN0.png" /></td><td>MAIN</td></tr><tr><td style="text-align: center;"><img src="legend/__V2_2_RECOMMEND1.png" /></td><td>RECOMMEND</td></tr></table>', layer: layer___V2_2},
+            {label: '종로구_명소_C01<br /><table><tr><td style="text-align: center;"><img src="legend/__C01_2_MAIN0.png" /></td><td>MAIN</td></tr><tr><td style="text-align: center;"><img src="legend/__C01_2_RECOMMEND1.png" /></td><td>RECOMMEND</td></tr></table>', layer: layer___C01_2},
             {label: '<img src="legend/__1.png" /> 종로구_탐방코스', layer: layer___1},
             {label: "OpenStreetMap", layer: layer_OpenStreetMap_0},]
         var lay = L.control.layers.tree(null, overlaysTree,{
@@ -399,27 +372,27 @@ var popupContent =
         lay.addTo(map);
         setBounds();
         var i = 0;
-        layer___V2_2.eachLayer(function(layer) {
+        layer___C01_2.eachLayer(function(layer) {
             var context = {
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((exp_label___V2_2_eval_expression(context) !== null?String('<div style="color: #0046a0; font-size: 9pt; font-weight: bold; font-family: \'맑은 고딕\', sans-serif;">' + exp_label___V2_2_eval_expression(context)) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css___V2_2'});
+            layer.bindTooltip((exp_label___C01_2_eval_expression(context) !== null?String('<div style="color: #0046a0; font-size: 9pt; font-weight: bold; font-family: \'맑은 고딕\', sans-serif;">' + exp_label___C01_2_eval_expression(context)) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css___C01_2'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
               addLabel(layer, i);
               i++;
         });
-        resetLabels([layer___1,layer___V2_2]);
+        resetLabels([layer___1,layer___C01_2]);
         map.on("zoomend", function(){
-            resetLabels([layer___1,layer___V2_2]);
+            resetLabels([layer___1,layer___C01_2]);
         });
         map.on("layeradd", function(){
-            resetLabels([layer___1,layer___V2_2]);
+            resetLabels([layer___1,layer___C01_2]);
         });
         map.on("layerremove", function(){
-            resetLabels([layer___1,layer___V2_2]);
+            resetLabels([layer___1,layer___C01_2]);
         });
         </script>
     </body>
