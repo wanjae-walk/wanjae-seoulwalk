@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <style>
         #map {
-            width: 930px;
+            width: 1158px;
             height: 616px;
         }
         </style>
@@ -56,7 +56,7 @@
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[37.57362974058897,126.96025020409049],[37.585409255174454,126.98261458694223]]);
+        }).fitBounds([[37.57069516342693,126.96325333040076],[37.58080783958813,126.98716669456729]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/qgis2web/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -166,30 +166,33 @@
 
 
 
-
-
- 
 var popupContent =
     '<div style="font-family:\'맑은 고딕\', sans-serif; width:300px;">' +
 
-        '<div style="font-size:18px; font-weight:bold; color:#174a7e; margin-bottom:10px;">' +
+        '<div style="font-size:18px; font-weight:bold; color:#174a7e; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #d9d9d9;">' +
             (feature.properties['THEME'] !== null
                 ? feature.properties['THEME']
                 : '') +
         '</div>' +
 
         '<div style="font-size:13px; color:#666; margin-bottom:8px;">' +
-            (feature.properties['START_PT'] !== null ? feature.properties['START_PT'] : '') +
+            (feature.properties['START_PT'] !== null
+                ? feature.properties['START_PT']
+                : '') +
             ' → ' +
-            (feature.properties['END_PT'] !== null ? feature.properties['END_PT'] : '') +
+            (feature.properties['END_PT'] !== null
+                ? feature.properties['END_PT']
+                : '') +
         '</div>' +
 
-        '<div style="font-size:13px; color:#666; margin-bottom:10px;">' +
-
-
-(feature.properties['DIST_KM'] !== null ? feature.properties['DIST_KM'] + 'km' : '') +
-' · 약 ' +
-(feature.properties['WALK_TIME'] !== null ? feature.properties['WALK_TIME'] + '분' : '') +
+        '<div style="font-size:12.5px; color:#777; margin-bottom:10px;">' +
+            (feature.properties['DIST_KM'] !== null
+                ? feature.properties['DIST_KM'] + 'km'
+                : '') +
+            ' · 약 ' +
+            (feature.properties['WALK_TIME'] !== null
+                ? feature.properties['WALK_TIME'] + '분'
+                : '') +
         '</div>' +
 
         '<div style="font-size:14px; line-height:1.7; color:#222;">' +
@@ -197,11 +200,8 @@ var popupContent =
                 ? feature.properties['DESCRIPTION']
                 : '') +
         '</div>' +
+
     '</div>';
-
-
-
-
 
 
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -265,21 +265,21 @@ var popupContent =
 
 
 
-
 var popupContent =
     '<div style="font-family:\'맑은 고딕\', sans-serif; width:300px;">' +
 
-'<div style="font-size:18px; font-weight:bold; color:#174a7e; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #d9d9d9;">' +
-
+        '<div style="font-size:18px; font-weight:bold; color:#174a7e; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #d9d9d9;">' +
             (feature.properties['WEB_LABEL'] !== null
                 ? feature.properties['WEB_LABEL']
                 : '') +
         '</div>' +
+
         '<div style="font-size:14px; line-height:1.7; color:#222;">' +
             (feature.properties['DESCRIPTION'] !== null
                 ? feature.properties['DESCRIPTION']
                 : '') +
         '</div>' +
+
     '</div>';
 
 
