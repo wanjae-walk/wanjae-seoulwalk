@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>완재의 서울걷기</title>
+<style>
+body{margin:0;font-family:"Noto Sans KR","맑은 고딕",sans-serif;background:#f4f5f2;color:#222}
+.wrap{max-width:900px;margin:0 auto;padding:42px 20px 58px}
+.hero{text-align:center;margin-bottom:58px}
+.seoul-mark{width:92px;height:66px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;border:2px solid #174a7e;border-radius:48% 52% 44% 56%/54% 42% 58% 46%;color:#174a7e;font-size:16px;font-weight:700;letter-spacing:.04em;transform:rotate(-3deg);background:rgba(255,255,255,.55)}
+.seoul-mark span{transform:rotate(3deg)}
+.brand{font-size:15px;color:#666;margin-bottom:12px;letter-spacing:-.01em}
+h1{margin:0;font-family:"Noto Sans KR","맑은 고딕",sans-serif;font-size:38px;font-weight:800;letter-spacing:-.03em;color:#163a5f}
+.archive{margin-top:10px;font-size:15px;font-weight:600;letter-spacing:.08em;color:#6f7c87}
+.slogan{margin-top:30px;font-family:"Noto Serif KR","나눔명조","바탕",serif;font-size:22px;line-height:1.65;font-weight:500;letter-spacing:-.02em;color:#777}
+.section-title{margin:0 0 18px;font-size:22px;color:#174a7e}
+.district-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.district-card{display:block;padding:22px 18px;border-radius:12px;background:white;text-decoration:none;color:#222;box-shadow:0 3px 12px rgba(0,0,0,.07);transition:transform .18s ease,box-shadow .18s ease}
+.district-card:hover{transform:translateY(-2px);box-shadow:0 7px 18px rgba(0,0,0,.10)}
+.district-name{font-size:19px;font-weight:700}
+.district-status{margin-top:8px;font-size:13px;color:#777}
+.ready{border:2px solid #174a7e}
+.ready .district-status{color:#174a7e;font-weight:600}
+.disabled{opacity:.55;pointer-events:none}
+footer{margin-top:48px;padding-top:22px;border-top:1px solid #dfe3e6;text-align:center;font-size:13px;line-height:1.8;color:#777}
+@media(max-width:700px){.wrap{padding-top:30px}.hero{margin-bottom:46px}h1{font-size:31px}.slogan{font-size:19px;margin-top:24px}.district-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:430px){.district-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<section class="hero">
+<div class="seoul-mark" aria-hidden="true"><span>SEOUL</span></div>
+<div class="brand">서울 25개 자치구 · 150개 서울걷기 코스</div>
+<h1>완재의 서울걷기</h1>
+<div class="archive">서울걷기 아카이브</div>
+<div class="slogan">천천히 걸으며, 서울을 이해하다.</div>
+</section>
+
+<section>
+<h2 class="section-title">서울 25개 자치구</h2>
+<div class="district-grid">
+<a class="district-card ready" href="jongno/index.html">
+<div class="district-name">종로구</div>
+<div class="district-status">7개 코스</div>
+</a>
+<div class="district-card disabled">
+<div class="district-name">중구</div>
+<div class="district-status">7개 코스 · 준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">용산구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">성동구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">광진구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">동대문구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">중랑구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">성북구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">강북구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">도봉구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">노원구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">은평구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">서대문구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">마포구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">양천구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">강서구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">구로구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">금천구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">영등포구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">동작구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">관악구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">서초구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">강남구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">송파구</div>
+<div class="district-status">준비 중</div>
+</div>
+<div class="district-card disabled">
+<div class="district-name">강동구</div>
+<div class="district-status">준비 중</div>
+</div>
+</div>
+</section>
+
+<footer>
+<div>© 2026 Wanjae's Seoul Walking Project</div>
+<div>서울 25개 자치구 · 150개 걷기 코스</div>
+</footer>
+</main>
+</body>
+</html>
