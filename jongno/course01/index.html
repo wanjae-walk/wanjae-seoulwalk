@@ -201,7 +201,7 @@
                 mouseover: highlightFeature,
             });
             var popupContent =
-                '<div style="font-family:\'맑은 고딕\',sans-serif;width:min(310px, calc(100vw - 56px));box-sizing:border-box;">' +
+                '<div style="font-family:\'맑은 고딕\',sans-serif;width:280px;max-width:calc(100vw - 90px);box-sizing:border-box;">' +
                     '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">' +
                         (feature.properties['THEME'] !== null ? feature.properties['THEME'] : '') +
                     '</div>' +
@@ -215,7 +215,7 @@
                         ' · 약 ' +
                         (feature.properties['WALK_TIME'] !== null ? feature.properties['WALK_TIME'] + '분' : '') +
                     '</div>' +
-                    '<div style="font-size:14px;line-height:1.7;color:#222;word-break:keep-all;overflow-wrap:break-word;white-space:normal;">' +
+                    '<div style="font-size:14px;line-height:1.7;color:#222;word-break:normal;overflow-wrap:anywhere;line-break:strict;white-space:normal;">' +
                         (feature.properties['DESCRIPTION'] !== null ? feature.properties['DESCRIPTION'] : '') +
                     '</div>' +
                 '</div>';
@@ -223,7 +223,7 @@
 			layer.on('popupopen', function(e) {
 				addClassToPopupIfMedia(content, e.popup);
 			});
-			layer.bindPopup(content, { maxHeight: 400 });
+			layer.bindPopup(content, { maxHeight: 400, maxWidth: 320, minWidth: 220, keepInView: true, autoPan: true });
         }
 
         function style___1_0() {
@@ -294,11 +294,11 @@
             }
 
             var popupContent =
-                '<div style="font-family:\'맑은 고딕\',sans-serif;width:min(310px, calc(100vw - 56px));box-sizing:border-box;">' +
+                '<div style="font-family:\'맑은 고딕\',sans-serif;width:280px;max-width:calc(100vw - 90px);box-sizing:border-box;">' +
                     '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">' +
                         (feature.properties['WEB_LABEL'] !== null ? feature.properties['WEB_LABEL'] : '') +
                     '</div>' +
-                    '<div style="font-size:14px;line-height:1.7;color:#222;word-break:keep-all;overflow-wrap:break-word;white-space:normal;">' +
+                    '<div style="font-size:14px;line-height:1.7;color:#222;word-break:normal;overflow-wrap:anywhere;line-break:strict;white-space:normal;">' +
                         (feature.properties['DESCRIPTION'] !== null ? feature.properties['DESCRIPTION'] : '') +
                     '</div>' +
                     urlHtml +
@@ -307,7 +307,7 @@
 			layer.on('popupopen', function(e) {
 				addClassToPopupIfMedia(content, e.popup);
 			});
-			layer.bindPopup(content, { maxHeight: 400 });
+			layer.bindPopup(content, { maxHeight: 400, maxWidth: 320, minWidth: 220, keepInView: true, autoPan: true });
         }
         function style___C01_2_0(feature) {
             var context = {
