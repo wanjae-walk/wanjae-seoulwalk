@@ -757,7 +757,7 @@ function fnc_project_color(values, context) {
 
 
 
-function exp_label___C01_2_eval_expression(context) {
+function exp_label__C01__2_eval_expression(context) {
     // coalesce(WEB_LABEL, NAME)
 
     var feature = context.feature;
@@ -770,7 +770,7 @@ function exp_label___C01_2_eval_expression(context) {
 }
 
 
-function exp_label___C01_2_eval_expression(context) {
+function exp_label__C01__2_eval_expression(context) {
     // coalesce(WEB_LABEL, NAME)
 
     var feature = context.feature;
@@ -783,7 +783,7 @@ function exp_label___C01_2_eval_expression(context) {
 }
 
 
-function exp___C01_2rule0_eval_expression(context) {
+function exp__C01__2rule0_eval_expression(context) {
     // POI_TYPE = 'MAIN'
 
     var feature = context.feature;
@@ -796,7 +796,7 @@ function exp___C01_2rule0_eval_expression(context) {
 }
 
 
-function exp___C01_2rule1_eval_expression(context) {
+function exp__C01__2rule1_eval_expression(context) {
     // POI_TYPE = 'RECOMMEND'
 
     var feature = context.feature;
