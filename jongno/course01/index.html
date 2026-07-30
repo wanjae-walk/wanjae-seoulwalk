@@ -319,6 +319,8 @@
 
             var popupContent =
                 '<div style="font-family:\'맑은 고딕\',sans-serif;width:280px;max-width:calc(100vw - 90px);box-sizing:border-box;">' +
+                    '' +
+                    (feature.properties['PHOTO'] ? '<div style="margin-bottom:10px;"><img src="images/' + feature.properties['PHOTO'] + '" style="width:100%;max-width:100%;border-radius:8px;margin-bottom:14px;box-shadow:0 2px 6px rgba(0,0,0,.2);display:block;" onerror="this.style.display=\'none\'"></div>' : '') +
                     '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">' +
                         (feature.properties['WEB_LABEL'] !== null ? feature.properties['WEB_LABEL'] : '') +
                     '</div>' +
@@ -331,7 +333,7 @@
             layer.on('popupopen', function(e) {
                 addClassToPopupIfMedia(content, e.popup);
             });
-            layer.bindPopup(content, { maxHeight: 400, maxWidth: 320, minWidth: 220, keepInView: true, autoPan: true });
+            layer.bindPopup(content, { maxHeight: 420, maxWidth: 340, minWidth: 240, keepInView: true, autoPan: true });
         }
         function style__C01__2_0(feature) {
             var context = {
