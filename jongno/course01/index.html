@@ -20,22 +20,63 @@
 
 
         .map-nav{
-            position:fixed; top:12px; right:18px; z-index:9999;
-            display:flex; flex-direction:column; gap:8px;
-        }
-        .map-nav a{
-            display:block; padding:10px 14px;
-            width:180px;
-            box-sizing:border-box;
-            text-align:center;
-            background:rgba(255,255,255,.95);
-            border:1px solid #174a7e; border-radius:8px;
-            color:#174a7e;
-            font-family:"Noto Sans KR","맑은 고딕",sans-serif;
-            font-size:13px; font-weight:700; text-decoration:none;
+            position:fixed;
+            top:12px;
+            right:14px;
+            z-index:9999;
+            width:170px;
+            display:flex;
+            flex-direction:column;
+            gap:0;
+            overflow:hidden;
+            background:rgba(255,255,255,.96);
+            border:1px solid #174a7e;
+            border-radius:9px;
             box-shadow:0 2px 8px rgba(0,0,0,.20);
         }
-        .map-nav a:hover{background:#174a7e;color:#fff;}
+        .map-nav a{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            min-height:38px;
+            padding:7px 6px;
+            box-sizing:border-box;
+            text-align:center;
+            background:transparent;
+            border:0;
+            border-bottom:1px solid rgba(23,74,126,.32);
+            border-radius:0;
+            color:#174a7e;
+            font-family:"Noto Sans KR","맑은 고딕",sans-serif;
+            font-size:12px;
+            line-height:1.25;
+            font-weight:700;
+            text-decoration:none;
+            box-shadow:none;
+            white-space:nowrap;
+        }
+        .map-nav a:last-child{
+            border-bottom:0;
+        }
+        .map-nav a:hover{
+            background:#174a7e;
+            color:#fff;
+        }
+
+        /* 명소 팝업의 좌우 여백과 닫기 버튼 위치를 균형 있게 조정 */
+        .leaflet-popup-content-wrapper{
+            box-sizing:border-box;
+        }
+        .leaflet-popup-content{
+            margin:26px 16px 16px 16px !important;
+        }
+        .leaflet-popup-close-button{
+            top:5px !important;
+            right:7px !important;
+            width:24px !important;
+            height:24px !important;
+            line-height:24px !important;
+        }
 
         .recommend-star-icon {
             background: transparent;
@@ -324,7 +365,7 @@
             var popupContent =
                 '<div style="font-family:\'맑은 고딕\',sans-serif;width:290px;max-width:calc(100vw - 90px);box-sizing:border-box;">' +
                     '' +
-                    (feature.properties['PHOTO'] ? '<div style="margin-bottom:10px;"><img src="images/' + feature.properties['PHOTO'] + '" style="width:92%;max-width:92%;height:185px;object-fit:cover;border-radius:8px;margin:0 auto 10px auto;box-shadow:0 2px 6px rgba(0,0,0,.2);display:block;" onerror="this.style.display=\'none\'"></div>' : '') +
+                    (feature.properties['PHOTO'] ? '<div style="margin-bottom:10px;"><img src="images/' + feature.properties['PHOTO'] + '" style="width:100%;max-width:100%;height:185px;object-fit:cover;border-radius:8px;margin:0 0 10px 0;box-shadow:0 2px 6px rgba(0,0,0,.2);display:block;" onerror="this.style.display=\'none\'"></div>' : '') +
                     '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">' +
                         (feature.properties['WEB_LABEL'] !== null ? feature.properties['WEB_LABEL'] : '') +
                     '</div>' +
