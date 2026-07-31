@@ -25,7 +25,7 @@
         }
         .map-nav a{
             display:block; padding:10px 14px;
-            width:230px;
+            width:180px;
             box-sizing:border-box;
             text-align:center;
             background:rgba(255,255,255,.95);
@@ -322,9 +322,9 @@
             }
 
             var popupContent =
-                '<div style="font-family:\'맑은 고딕\',sans-serif;width:280px;max-width:calc(100vw - 90px);box-sizing:border-box;">' +
+                '<div style="font-family:\'맑은 고딕\',sans-serif;width:290px;max-width:calc(100vw - 90px);box-sizing:border-box;">' +
                     '' +
-                    (feature.properties['PHOTO'] ? '<div style="margin-bottom:10px;"><img src="images/' + feature.properties['PHOTO'] + '" style="width:100%;max-width:100%;height:210px;object-fit:cover;border-radius:8px;margin-bottom:10px;box-shadow:0 2px 6px rgba(0,0,0,.2);display:block;" onerror="this.style.display=\'none\'"></div>' : '') +
+                    (feature.properties['PHOTO'] ? '<div style="margin-bottom:10px;"><img src="images/' + feature.properties['PHOTO'] + '" style="width:92%;max-width:92%;height:185px;object-fit:cover;border-radius:8px;margin:0 auto 10px auto;box-shadow:0 2px 6px rgba(0,0,0,.2);display:block;" onerror="this.style.display=\'none\'"></div>' : '') +
                     '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">' +
                         (feature.properties['WEB_LABEL'] !== null ? feature.properties['WEB_LABEL'] : '') +
                     '</div>' +
