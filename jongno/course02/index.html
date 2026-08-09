@@ -20,6 +20,7 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
 .leaflet-popup-content-wrapper{box-sizing:border-box;overflow:hidden}
 .leaflet-popup-content{margin:26px 16px 16px!important;box-sizing:border-box}
 .leaflet-popup-close-button{top:5px!important;right:7px!important;width:24px!important;height:24px!important;line-height:24px!important;z-index:2}
+
 .intro-overlay{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.28);box-sizing:border-box}
 .intro-overlay.is-hidden{display:none}
 .intro-card{position:relative;width:min(390px,calc(100vw - 36px));box-sizing:border-box;padding:28px 22px 20px;background:rgba(255,255,255,.98);border-radius:18px;box-shadow:0 8px 28px rgba(0,0,0,.28);font-family:"Noto Sans KR","맑은 고딕",sans-serif;color:#222;text-align:center}
@@ -32,9 +33,17 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
 .intro-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;padding-top:14px;border-top:1px solid #d8d8d8}
 .intro-check{display:flex;align-items:center;gap:6px;color:#666;font-size:13px;text-align:left}
 .intro-confirm{min-width:88px;padding:10px 18px;border:0;border-radius:8px;background:#174a7e;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+
 .recommend-star-icon{background:transparent;border:0}
 .recommend-star-icon .star{display:block;width:22px;height:22px;line-height:22px;text-align:center;color:rgb(255,255,80);-webkit-text-stroke:1.2px rgb(34,102,68);font-size:23px;font-weight:700;text-shadow:0 0 1px rgb(34,102,68);transform:translate(-1px,-1px)}
 .wanjae-locate button{width:30px;height:30px;border:0;background:#fff;cursor:pointer;font-size:18px;line-height:28px}
+
+.next-box{margin-top:14px;padding-top:12px;border-top:1px solid #d9d9d9}
+.next-title{font-size:14px;font-weight:800;color:#174a7e;margin-bottom:5px}
+.next-meta{font-size:13px;font-weight:700;color:#555;margin-bottom:6px}
+.next-guide{font-size:13px;line-height:1.6;color:#333}
+.finish-box{margin-top:14px;padding-top:12px;border-top:1px solid #d9d9d9;font-size:15px;font-weight:800;color:#d97706}
+
 @media(max-width:480px){.intro-card{padding:26px 18px 18px}.intro-title{font-size:22px}.intro-text{font-size:14px;line-height:1.75}.map-nav{width:170px;right:12px;top:12px}}
 </style>
 <title>완재의 서울걷기 | 종로구 제2코스</title>
@@ -95,7 +104,7 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
         <script>
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[37.57294732930509,126.97133775482273],[37.59013224046632,126.99662492582814]]);
+        }).fitBounds([[37.582677755927655,126.9878092748296],[37.58399711336099,126.99071873626643]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/qgis2web/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -216,17 +225,55 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
         layer_OpenStreetMap_0;
         map.addLayer(layer_OpenStreetMap_0);
         function pop__C02_Master_C02__1(feature, layer) {
-            var popupContent =
-                '<div style="font-family:\'맑은 고딕\',sans-serif;width:280px;max-width:calc(100vw - 90px);box-sizing:border-box;">' +
-                '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">' + safeText(feature.properties['THEME']) + '</div>' +
-                '<div style="font-size:13px;color:#666;margin-bottom:8px;">' + safeText(feature.properties['START_PT']) + ' → ' + safeText(feature.properties['END_PT']) + '</div>' +
-                '<div style="font-size:12.5px;color:#777;margin-bottom:10px;">' +
-                    (feature.properties['DIST_KM']!==null?safeText(feature.properties['DIST_KM'])+'km':'') +
-                    (feature.properties['WALK_TIME']!==null?' · 약 '+safeText(feature.properties['WALK_TIME'])+'분':'') +
-                '</div>' +
-                '<div style="font-size:14px;line-height:1.7;color:#222;word-break:normal;overflow-wrap:anywhere;line-break:strict;white-space:normal;">' + safeText(feature.properties['DESCRIPTION']) + '</div>' +
-                '</div>';
-            layer.bindPopup(popupContent,{maxHeight:400,maxWidth:320,minWidth:220,keepInView:true,autoPan:true});
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(String(feature.properties['fid']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COURSE_NO'] !== null ? autolinker.link(String(feature.properties['COURSE_NO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['THEME'] !== null ? autolinker.link(String(feature.properties['THEME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SEG_NO'] !== null ? autolinker.link(String(feature.properties['SEG_NO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['START_PT'] !== null ? autolinker.link(String(feature.properties['START_PT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['END_PT'] !== null ? autolinker.link(String(feature.properties['END_PT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DIST_KM'] !== null ? autolinker.link(String(feature.properties['DIST_KM']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WALK_TIME'] !== null ? autolinker.link(String(feature.properties['WALK_TIME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DIRECTION'] !== null ? autolinker.link(String(feature.properties['DIRECTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MEMO'] !== null ? autolinker.link(String(feature.properties['MEMO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['VIA_PT'] !== null ? autolinker.link(String(feature.properties['VIA_PT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DESCRIPTION'] !== null ? autolinker.link(String(feature.properties['DESCRIPTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ROUTE_TYPE'] !== null ? autolinker.link(String(feature.properties['ROUTE_TYPE']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WEB_LABEL'] !== null ? autolinker.link(String(feature.properties['WEB_LABEL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
         }
 
         function style__C02_Master_C02__1_0() {
@@ -239,7 +286,7 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
                 lineJoin: 'round',
                 weight: 7.0,
                 fillOpacity: 0,
-                interactive: true,
+                interactive: false,
             }
         }
         function style__C02_Master_C02__1_1() {
@@ -252,7 +299,7 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
                 lineJoin: 'round',
                 weight: 8.0,
                 fillOpacity: 0,
-                interactive: true,
+                interactive: false,
             }
         }
         map.createPane('pane__C02_Master_C02__1');
@@ -260,7 +307,7 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
         map.getPane('pane__C02_Master_C02__1').style['mix-blend-mode'] = 'normal';
         var layer__C02_Master_C02__1 = new L.geoJson.multiStyle(json__C02_Master_C02__1, {
             attribution: '',
-            interactive: true,
+            interactive: false,
             dataVar: 'json__C02_Master_C02__1',
             layerName: 'layer__C02_Master_C02__1',
             pane: 'pane__C02_Master_C02__1',
@@ -272,15 +319,37 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
         function pop__C02_Master_C02__2(feature, layer) {
             var url=safeUrl(feature.properties['URL']);
             var urlHtml=url?'<div style="margin-top:12px;padding-top:10px;border-top:1px solid #e2e2e2;"><a href="'+url+'" target="_blank" rel="noopener noreferrer" style="color:#174a7e;font-size:14px;font-weight:bold;text-decoration:none;">🔗 공식 홈페이지</a></div>':'';
+
             var photo=photoSrc(feature.properties['PHOTO']);
             var photoHtml=photo?'<div style="margin-bottom:10px;"><img src="'+photo+'" style="width:100%;max-width:100%;height:170px;object-fit:cover;border-radius:8px;margin:0 0 10px 0;box-shadow:0 2px 6px rgba(0,0,0,.2);display:block;box-sizing:border-box;" onerror="this.style.display=\'none\'"></div>':'';
+
+            var nextPoi=safeText(feature.properties['NEXT_POI']).trim();
+            var nextDist=safeText(feature.properties['NEXT_DIST']).trim();
+            var nextTime=safeText(feature.properties['NEXT_TIME']).trim();
+            var nextGuide=safeText(feature.properties['NEXT_GUIDE']).trim();
+
+            var nextHtml='';
+            if(nextPoi==='코스 종료'){
+                nextHtml='<div class="finish-box">🏁 종로구 제2코스 종료</div>';
+            } else if(nextPoi){
+                var meta=[nextDist,nextTime].filter(Boolean).join(' · ');
+                nextHtml=
+                    '<div class="next-box">' +
+                        '<div class="next-title">🚶 다음 명소 → '+nextPoi+'</div>' +
+                        (meta?'<div class="next-meta">'+meta+'</div>':'') +
+                        (nextGuide?'<div class="next-guide">'+nextGuide+'</div>':'') +
+                    '</div>';
+            }
+
             var popupContent =
                 '<div style="font-family:\'맑은 고딕\',sans-serif;width:260px;max-width:calc(100vw - 120px);box-sizing:border-box;">' +
-                photoHtml +
-                '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">'+safeText(feature.properties['WEB_LABEL'])+'</div>' +
-                '<div style="font-size:14px;line-height:1.7;color:#222;word-break:normal;overflow-wrap:anywhere;line-break:strict;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div>' +
-                urlHtml + '</div>';
-            layer.bindPopup(popupContent,{maxHeight:420,maxWidth:340,minWidth:240,keepInView:true,autoPan:true});
+                    photoHtml +
+                    '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">'+safeText(feature.properties['WEB_LABEL'])+'</div>' +
+                    '<div style="font-size:14px;line-height:1.7;color:#222;word-break:normal;overflow-wrap:anywhere;line-break:strict;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div>' +
+                    urlHtml +
+                    nextHtml +
+                '</div>';
+            layer.bindPopup(popupContent,{maxHeight:460,maxWidth:340,minWidth:240,keepInView:true,autoPan:true});
         }
 
         function style__C02_Master_C02__2_0(feature) {
@@ -357,11 +426,11 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
             var photoHtml=photo?'<div style="margin-bottom:10px;"><img src="'+photo+'" style="width:100%;max-width:100%;height:auto;object-fit:contain;border-radius:8px;margin:0 0 10px 0;box-shadow:0 2px 6px rgba(0,0,0,.2);display:block;box-sizing:border-box;" onerror="this.style.display=\'none\'"></div>':'';
             var popupContent =
                 '<div style="font-family:\'맑은 고딕\',sans-serif;width:260px;max-width:calc(100vw - 110px);box-sizing:border-box;">' +
-                photoHtml +
-                '<div style="font-size:17px;font-weight:bold;color:#9a6500;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid #ead58a;">'+(safeText(feature.properties['NAME'])||'이동 안내')+'</div>' +
-                '<div style="font-size:14px;line-height:1.65;color:#222;word-break:normal;overflow-wrap:anywhere;line-break:strict;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div>' +
+                    photoHtml +
+                    '<div style="font-size:17px;font-weight:bold;color:#9a6500;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid #ead58a;">'+(safeText(feature.properties['NAME'])||'이동 안내')+'</div>' +
+                    '<div style="font-size:14px;line-height:1.65;color:#222;word-break:normal;overflow-wrap:anywhere;line-break:strict;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div>' +
                 '</div>';
-            layer.bindPopup(popupContent,{maxHeight:400,maxWidth:320,minWidth:220,keepInView:true,autoPan:true});
+            layer.bindPopup(popupContent,{maxHeight:420,maxWidth:320,minWidth:220,keepInView:true,autoPan:true});
         }
 
         function style__C02__3_0() {
