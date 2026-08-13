@@ -13,224 +13,53 @@
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <style>
-        #map {
-            width: 1067px;
-            height: 616px;
-        }
-
-
-        .map-nav{
-            position:fixed;
-            top:12px;
-            right:14px;
-            z-index:9999;
-            width:170px;
-            display:flex;
-            flex-direction:column;
-            gap:0;
-            overflow:hidden;
-            background:rgba(255,255,255,.96);
-            border:1px solid #174a7e;
-            border-radius:9px;
-            box-shadow:0 2px 8px rgba(0,0,0,.20);
-        }
-        .map-nav a{
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            min-height:38px;
-            padding:7px 6px;
-            box-sizing:border-box;
-            text-align:center;
-            background:transparent;
-            border:0;
-            border-bottom:1px solid rgba(23,74,126,.32);
-            border-radius:0;
-            color:#174a7e;
-            font-family:"Noto Sans KR","맑은 고딕",sans-serif;
-            font-size:12px;
-            line-height:1.25;
-            font-weight:700;
-            text-decoration:none;
-            box-shadow:none;
-            white-space:nowrap;
-        }
-        .map-nav a:last-child{
-            border-bottom:0;
-        }
-        .map-nav a:hover{
-            background:#174a7e;
-            color:#fff;
-        }
-
-        /* 명소 팝업: 사진이 삐져나오지 않도록 폭과 여백을 함께 제어 */
-        .leaflet-popup-content-wrapper{
-            box-sizing:border-box;
-            overflow:hidden;
-        }
-        .leaflet-popup-content{
-            margin:26px 16px 16px 16px !important;
-            box-sizing:border-box;
-        }
-        .leaflet-popup-close-button{
-            top:5px !important;
-            right:7px !important;
-            width:24px !important;
-            height:24px !important;
-            line-height:24px !important;
-            z-index:2;
-        }
-
-        /* 첫 화면 안내 팝업 */
-        .intro-overlay{
-            position:fixed;
-            inset:0;
-            z-index:10050;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            padding:18px;
-            background:rgba(0,0,0,.28);
-            box-sizing:border-box;
-        }
-        .intro-overlay.is-hidden{
-            display:none;
-        }
-        .intro-card{
-            position:relative;
-            width:min(390px, calc(100vw - 36px));
-            box-sizing:border-box;
-            padding:28px 22px 20px;
-            background:rgba(255,255,255,.98);
-            border-radius:18px;
-            box-shadow:0 8px 28px rgba(0,0,0,.28);
-            font-family:"Noto Sans KR","맑은 고딕",sans-serif;
-            color:#222;
-            text-align:center;
-        }
-        .intro-close{
-            position:absolute;
-            top:10px;
-            right:12px;
-            border:0;
-            background:transparent;
-            color:#444;
-            font-size:26px;
-            line-height:1;
-            cursor:pointer;
-        }
-        .intro-icon{
-            width:54px;
-            height:54px;
-            margin:0 auto 12px;
-            border-radius:50%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background:#174a7e;
-            color:#fff;
-            font-size:30px;
-        }
-        .intro-title{
-            margin:0 0 16px;
-            padding-bottom:12px;
-            border-bottom:1px solid #d8d8d8;
-            color:#174a7e;
-            font-size:24px;
-            line-height:1.3;
-            font-weight:800;
-        }
-        .intro-text{
-            margin:0;
-            font-size:15px;
-            line-height:1.8;
-            word-break:keep-all;
-        }
-        .intro-emphasis{
-            margin:16px 0 0;
-            color:#174a7e;
-            font-size:18px;
-            font-weight:800;
-        }
-        .intro-footer{
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:12px;
-            margin-top:18px;
-            padding-top:14px;
-            border-top:1px solid #d8d8d8;
-        }
-        .intro-check{
-            display:flex;
-            align-items:center;
-            gap:6px;
-            color:#666;
-            font-size:13px;
-            text-align:left;
-        }
-        .intro-confirm{
-            min-width:88px;
-            padding:10px 18px;
-            border:0;
-            border-radius:8px;
-            background:#174a7e;
-            color:#fff;
-            font-size:15px;
-            font-weight:700;
-            cursor:pointer;
-        }
-        @media (max-width:480px){
-            .intro-card{
-                padding:26px 18px 18px;
-            }
-            .intro-title{
-                font-size:22px;
-            }
-            .intro-text{
-                font-size:14px;
-                line-height:1.75;
-            }
-        }
-
-        .recommend-star-icon {
-            background: transparent;
-            border: 0;
-        }
-        .recommend-star-icon .star {
-            display: block;
-            width: 22px;
-            height: 22px;
-            line-height: 22px;
-            text-align: center;
-            color: rgb(255,255,80);
-            -webkit-text-stroke: 1.2px rgb(34,102,68);
-            font-size: 23px;
-            font-weight: 700;
-            text-shadow: 0 0 1px rgb(34,102,68);
-            transform: translate(-1px,-1px);
-        }
-
-        </style>
-        <title>완재의 서울걷기 | 종로구 제1코스</title>
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="완재의 서울걷기 | 종로구 제1코스">
-        <meta property="og:description" content="궁궐과 서촌 골목 이야기">
-        <meta property="og:url" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/course01/">
-        <meta property="og:image" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course01_og_v10.png">
-        <meta property="og:image:secure_url" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course01_og_v10.png">
-        <meta property="og:image:type" content="image/png">
-        <meta property="og:image:width" content="984">
-        <meta property="og:image:height" content="659">
-        <meta property="og:site_name" content="완재의 서울걷기">
-        <meta property="og:locale" content="ko_KR">
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="완재의 서울걷기 | 종로구 제1코스">
-        <meta name="twitter:description" content="궁궐과 서촌 골목 이야기">
-        <meta name="twitter:image" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course01_og_v10.png">
+html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#fff}
+#map{width:100vw;height:100vh}
+.map-nav{position:fixed;top:12px;right:14px;z-index:9999;width:170px;display:flex;flex-direction:column;overflow:hidden;background:rgba(255,255,255,.96);border:1px solid #174a7e;border-radius:9px;box-shadow:0 2px 8px rgba(0,0,0,.20)}
+.map-nav a{display:flex;align-items:center;justify-content:center;min-height:38px;padding:7px 6px;box-sizing:border-box;text-align:center;border-bottom:1px solid rgba(23,74,126,.32);color:#174a7e;font-family:"Noto Sans KR","맑은 고딕",sans-serif;font-size:12px;line-height:1.25;font-weight:700;text-decoration:none;white-space:nowrap}
+.map-nav a:last-child{border-bottom:0}.map-nav a:hover{background:#174a7e;color:#fff}
+.leaflet-popup-content-wrapper{box-sizing:border-box;overflow:hidden}
+.leaflet-popup-content{margin:26px 16px 16px!important;box-sizing:border-box}
+.leaflet-popup-close-button{top:5px!important;right:7px!important;width:24px!important;height:24px!important;line-height:24px!important;z-index:2}
+.intro-overlay{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.28);box-sizing:border-box}
+.intro-overlay.is-hidden{display:none}
+.intro-card{position:relative;width:min(390px,calc(100vw - 36px));box-sizing:border-box;padding:28px 22px 20px;background:rgba(255,255,255,.98);border-radius:18px;box-shadow:0 8px 28px rgba(0,0,0,.28);font-family:"Noto Sans KR","맑은 고딕",sans-serif;color:#222;text-align:center}
+.intro-close{position:absolute;top:10px;right:12px;border:0;background:transparent;color:#444;font-size:26px;line-height:1;cursor:pointer}
+.intro-icon{width:54px;height:54px;margin:0 auto 12px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#174a7e;color:#fff;font-size:30px}
+.intro-title{margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid #d8d8d8;color:#174a7e;font-size:24px;line-height:1.3;font-weight:800}
+.intro-text{margin:0;font-size:15px;line-height:1.8;word-break:keep-all}
+.intro-emphasis{margin:16px 0 0;color:#174a7e;font-size:18px;font-weight:800}
+.intro-complete-date,.intro-revise-date{margin:8px 0 0;color:#d97706;font-size:14px;font-weight:800;letter-spacing:.2px}
+.intro-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;padding-top:14px;border-top:1px solid #d8d8d8}
+.intro-check{display:flex;align-items:center;gap:6px;color:#666;font-size:13px;text-align:left}
+.intro-confirm{min-width:88px;padding:10px 18px;border:0;border-radius:8px;background:#174a7e;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.recommend-star-icon{background:transparent;border:0}
+.recommend-star-icon .star{display:block;width:22px;height:22px;line-height:22px;text-align:center;color:rgb(255,255,80);-webkit-text-stroke:1.2px rgb(34,102,68);font-size:23px;font-weight:700;text-shadow:0 0 1px rgb(34,102,68);transform:translate(-1px,-1px)}
+.next-box{margin-top:14px;padding-top:12px;border-top:1px solid #d9d9d9}
+.next-title{font-size:14px;font-weight:800;color:#174a7e;margin-bottom:5px}
+.next-meta{font-size:13px;font-weight:700;color:#555;margin-bottom:6px}
+.next-guide{font-size:13px;line-height:1.6;color:#333}
+.finish-box{margin-top:14px;padding-top:12px;border-top:1px solid #d9d9d9;font-size:15px;font-weight:800;color:#d97706}
+@media(max-width:480px){.intro-card{padding:26px 18px 18px}.intro-title{font-size:22px}.intro-text{font-size:14px;line-height:1.75}.map-nav{width:170px;right:12px;top:12px}}
+</style>
+<title>완재의 서울걷기 | 종로구 제1코스</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="완재의 서울걷기 | 종로구 제1코스">
+<meta property="og:description" content="궁궐과 서촌 골목 이야기">
+<meta property="og:image" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course01_cover.png">
+<meta property="og:image:secure_url" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course01_cover.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="984">
+<meta property="og:image:height" content="659">
+<meta property="og:url" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/course01/">
+<meta property="og:site_name" content="완재의 서울걷기">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="완재의 서울걷기 | 종로구 제1코스">
+<meta name="twitter:description" content="궁궐과 서촌 골목 이야기">
+<meta name="twitter:image" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course01_cover.png">
     </head>
     <body>
-
         <div id="introOverlay" class="intro-overlay" role="dialog" aria-modal="true" aria-labelledby="introTitle">
             <div class="intro-card">
                 <button id="introClose" class="intro-close" type="button" aria-label="안내 닫기">×</button>
@@ -242,22 +71,19 @@
                     표시된 길을 따라 걷다가 자신만의 좋은 골목을 발견해 보셔도 좋습니다.
                 </p>
                 <p class="intro-emphasis">길은 어디로든 통합니다.</p>
+                <p class="intro-complete-date">코스 완성 · 2026. 7. 30.</p>
+                <p class="intro-revise-date">제1코스 보완 · 2026. 8. 13.</p>
                 <div class="intro-footer">
-                    <label class="intro-check">
-                        <input id="introDontShow" type="checkbox">
-                        오늘은 다시 보지 않기
-                    </label>
+                    <label class="intro-check"><input id="introDontShow" type="checkbox">오늘은 다시 보지 않기</label>
                     <button id="introConfirm" class="intro-confirm" type="button">확인</button>
                 </div>
             </div>
         </div>
-
         <div class="map-nav">
-            <a href="../index.html">← 종로구 7개 코스</a>
-            <a href="../../index.html">⌂ 서울 25개 자치구</a>
+            <a href="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/">← 종로구 7개 코스</a>
+            <a href="https://wanjae-walk.github.io/wanjae-seoulwalk/">⌂ 서울 25개 자치구</a>
             <a href="https://cafe.daum.net/earth1985" target="_blank" rel="noopener noreferrer">☕ 완재의 서울걷기 카페</a>
         </div>
-
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
@@ -274,14 +100,13 @@
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
         <script src="js/leaflet.photon.js"></script>
-        <script src="data/_C01__1.js"></script>
-        <script src="data/_C01__2.js"></script>
-        <script src="data/_C01__3.js"></script>
+        <script src="data/_C01_Master_C01__1.js"></script>
+        <script src="data/_C01_Master_C01__2.js"></script>
+        <script src="data/_C01_Master_C01__3.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
             highlightLayer = e.target;
-            if (typeof e.target.setStyle !== 'function') return;
 
             if (e.target.feature.geometry.type === 'LineString' || e.target.feature.geometry.type === 'MultiLineString') {
               highlightLayer.setStyle({
@@ -296,10 +121,13 @@
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[37.57581514026078,126.96797811548188],[37.58094739486819,126.9791597008893]]);
+        }).fitBounds([[37.5642658905702,126.96581092613782],[37.5792790155173,126.98817311233589]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/qgis2web/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        function safeText(v){return(v===null||v===undefined||String(v).toUpperCase()==='NULL')?'':String(v);}
+        function photoSrc(v){if(!v)return '';var x=String(v).replace(/\\/g,'/').trim();return 'images/'+x.split('/').pop();}
+        function safeUrl(v){var x=safeText(v).trim();return /^https?:\/\//i.test(x)?x.replace(/"/g,'&quot;'):'';}
         // remove popup's row if "visible-with-data"
         function removeEmptyRowsFromPopupContent(content, feature) {
          var tempDiv = document.createElement('div');
@@ -392,7 +220,7 @@
         });
         layer_OpenStreetMap_0;
         map.addLayer(layer_OpenStreetMap_0);
-        function pop__C01__1(feature, layer) {
+        function pop__C01_Master_C01__1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -403,35 +231,60 @@
                 },
                 mouseover: highlightFeature,
             });
-            var popupContent =
-                '<div style="font-family:\'맑은 고딕\',sans-serif;width:280px;max-width:calc(100vw - 90px);box-sizing:border-box;">' +
-                    '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">' +
-                        (feature.properties['THEME'] !== null ? feature.properties['THEME'] : '') +
-                    '</div>' +
-                    '<div style="font-size:13px;color:#666;margin-bottom:8px;">' +
-                        (feature.properties['START_PT'] !== null ? feature.properties['START_PT'] : '') +
-                        ' → ' +
-                        (feature.properties['END_PT'] !== null ? feature.properties['END_PT'] : '') +
-                    '</div>' +
-                    '<div style="font-size:12.5px;color:#777;margin-bottom:10px;">' +
-                        (feature.properties['DIST_KM'] !== null ? feature.properties['DIST_KM'] + 'km' : '') +
-                        ' · 약 ' +
-                        (feature.properties['WALK_TIME'] !== null ? feature.properties['WALK_TIME'] + '분' : '') +
-                    '</div>' +
-                    '<div style="font-size:14px;line-height:1.7;color:#222;word-break:normal;overflow-wrap:anywhere;line-break:strict;white-space:normal;">' +
-                        (feature.properties['DESCRIPTION'] !== null ? feature.properties['DESCRIPTION'] : '') +
-                    '</div>' +
-                '</div>';
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(String(feature.properties['fid']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COURSE_NO'] !== null ? autolinker.link(String(feature.properties['COURSE_NO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['THEME'] !== null ? autolinker.link(String(feature.properties['THEME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SEG_NO'] !== null ? autolinker.link(String(feature.properties['SEG_NO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['START_PT'] !== null ? autolinker.link(String(feature.properties['START_PT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['END_PT'] !== null ? autolinker.link(String(feature.properties['END_PT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DIST_KM'] !== null ? autolinker.link(String(feature.properties['DIST_KM']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WALK_TIME'] !== null ? autolinker.link(String(feature.properties['WALK_TIME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DIRECTION'] !== null ? autolinker.link(String(feature.properties['DIRECTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MEMO'] !== null ? autolinker.link(String(feature.properties['MEMO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['VIA_PT'] !== null ? autolinker.link(String(feature.properties['VIA_PT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DESCRIPTION'] !== null ? autolinker.link(String(feature.properties['DESCRIPTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ROUTE_TYPE'] !== null ? autolinker.link(String(feature.properties['ROUTE_TYPE']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WEB_LABEL'] !== null ? autolinker.link(String(feature.properties['WEB_LABEL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-            layer.on('popupopen', function(e) {
-                addClassToPopupIfMedia(content, e.popup);
-            });
-            layer.bindPopup(content, { maxHeight: 400, maxWidth: 320, minWidth: 220, keepInView: true, autoPan: true });
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style__C01__1_0() {
+        function style__C01_Master_C01__1_0() {
             return {
-                pane: 'pane__C01__1',
+                pane: 'pane__C01_Master_C01__1',
                 opacity: 1,
                 color: 'rgba(0,128,0,1.0)',
                 dashArray: '',
@@ -439,12 +292,12 @@
                 lineJoin: 'round',
                 weight: 7.0,
                 fillOpacity: 0,
-                interactive: true,
+                interactive: false,
             }
         }
-        function style__C01__1_1() {
+        function style__C01_Master_C01__1_1() {
             return {
-                pane: 'pane__C01__1',
+                pane: 'pane__C01_Master_C01__1',
                 opacity: 1,
                 color: 'rgba(0,128,0,1.0)',
                 dashArray: '',
@@ -452,79 +305,58 @@
                 lineJoin: 'round',
                 weight: 8.0,
                 fillOpacity: 0,
-                interactive: true,
+                interactive: false,
             }
         }
-        map.createPane('pane__C01__1');
-        map.getPane('pane__C01__1').style.zIndex = 401;
-        map.getPane('pane__C01__1').style['mix-blend-mode'] = 'normal';
-        var layer__C01__1 = new L.geoJson.multiStyle(json__C01__1, {
+        map.createPane('pane__C01_Master_C01__1');
+        map.getPane('pane__C01_Master_C01__1').style.zIndex = 401;
+        map.getPane('pane__C01_Master_C01__1').style['mix-blend-mode'] = 'normal';
+        var layer__C01_Master_C01__1 = new L.geoJson.multiStyle(json__C01_Master_C01__1, {
             attribution: '',
-            interactive: true,
-            dataVar: 'json__C01__1',
-            layerName: 'layer__C01__1',
-            pane: 'pane__C01__1',
-            onEachFeature: pop__C01__1,
-            styles: [style__C01__1_0,style__C01__1_1,]
+            interactive: false,
+            dataVar: 'json__C01_Master_C01__1',
+            layerName: 'layer__C01_Master_C01__1',
+            pane: 'pane__C01_Master_C01__1',
+            onEachFeature: pop__C01_Master_C01__1,
+            styles: [style__C01_Master_C01__1_0,style__C01_Master_C01__1_1,]
         });
-        bounds_group.addLayer(layer__C01__1);
-        map.addLayer(layer__C01__1);
-        function pop__C01__2(feature, layer) {
-            if (typeof layer.setStyle === 'function') {
-                layer.on({
-                    mouseout: function(e) {
-                        for (var i in e.target._eventParents) {
-                            if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                                e.target._eventParents[i].resetStyle(e.target);
-                            }
-                        }
-                    },
-                    mouseover: highlightFeature,
-                });
+        bounds_group.addLayer(layer__C01_Master_C01__1);
+        map.addLayer(layer__C01_Master_C01__1);
+        function pop__C01_Master_C01__2(feature, layer) {
+            var url=safeUrl(feature.properties['URL']);
+            var urlHtml=url?'<div style="margin-top:12px;padding-top:10px;border-top:1px solid #e2e2e2;"><a href="'+url+'" target="_blank" rel="noopener noreferrer" style="color:#174a7e;font-size:14px;font-weight:bold;text-decoration:none;">🔗 공식 홈페이지</a></div>':'';
+            var photo=photoSrc(feature.properties['PHOTO']);
+            var photoHtml=photo?'<div style="margin-bottom:10px;"><img src="'+photo+'" style="width:100%;max-width:100%;height:170px;object-fit:cover;border-radius:8px;margin:0 0 10px 0;box-shadow:0 2px 6px rgba(0,0,0,.2);display:block;box-sizing:border-box;" onerror="this.parentElement.style.display=\'none\'"></div>':'';
+            var nextPoi=safeText(feature.properties['NEXT_POI']).trim();
+            var nextDist=safeText(feature.properties['NEXT_DIST']).trim();
+            var nextTime=safeText(feature.properties['NEXT_TIME']).trim();
+            var nextGuide=safeText(feature.properties['NEXT_GUIDE']).trim();
+            var nextHtml='';
+            if(nextPoi && nextPoi.indexOf('종로구 제1코스 종료')!==-1){
+                nextHtml='<div class="finish-box">🏁 종로구 제1코스 종료</div>';
+            } else if(nextPoi){
+                var meta=[nextDist,nextTime].filter(Boolean).join(' · ');
+                nextHtml='<div class="next-box"><div class="next-title">🚶 다음 명소 → '+nextPoi+'</div>'+
+                    (meta?'<div class="next-meta">'+meta+'</div>':'')+
+                    (nextGuide?'<div class="next-guide">'+nextGuide+'</div>':'')+'</div>';
             }
-            var urlValue = feature.properties['URL'];
-            var urlHtml = '';
-
-            if (urlValue !== null &&
-                String(urlValue).trim() !== '' &&
-                String(urlValue).toUpperCase() !== 'NULL') {
-                urlHtml =
-                    '<div style="margin-top:12px;padding-top:10px;border-top:1px solid #e2e2e2;">' +
-                        '<a href="' + String(urlValue).replace(/"/g, '&quot;') + '" ' +
-                        'target="_blank" rel="noopener noreferrer" ' +
-                        'style="color:#174a7e;font-size:14px;font-weight:bold;text-decoration:none;">' +
-                        '🔗 공식 홈페이지' +
-                        '</a>' +
-                    '</div>';
-            }
-
-            var popupContent =
-                '<div style="font-family:\'맑은 고딕\',sans-serif;width:260px;max-width:calc(100vw - 120px);box-sizing:border-box;">' +
-                    '' +
-                    (feature.properties['PHOTO'] ? '<div style="margin-bottom:10px;"><img src="images/' + feature.properties['PHOTO'] + '" style="width:100%;max-width:100%;height:170px;object-fit:cover;border-radius:8px;margin:0 0 10px 0;box-shadow:0 2px 6px rgba(0,0,0,.2);display:block;box-sizing:border-box;" onerror="this.style.display=\'none\'"></div>' : '') +
-                    '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">' +
-                        (feature.properties['WEB_LABEL'] !== null ? feature.properties['WEB_LABEL'] : '') +
-                    '</div>' +
-                    '<div style="font-size:14px;line-height:1.7;color:#222;word-break:normal;overflow-wrap:anywhere;line-break:strict;white-space:normal;">' +
-                        (feature.properties['DESCRIPTION'] !== null ? feature.properties['DESCRIPTION'] : '') +
-                    '</div>' +
-                    urlHtml +
-                '</div>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-            layer.on('popupopen', function(e) {
-                addClassToPopupIfMedia(content, e.popup);
-            });
-            layer.bindPopup(content, { maxHeight: 420, maxWidth: 340, minWidth: 240, keepInView: true, autoPan: true });
+            var label=safeText(feature.properties['WEB_LABEL']).trim() || safeText(feature.properties['NAME']).trim();
+            var popupContent="<div style=\"font-family:'맑은 고딕',sans-serif;width:260px;max-width:calc(100vw - 120px);box-sizing:border-box;\">"+
+                photoHtml+
+                '<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">'+label+'</div>'+
+                '<div style="font-size:14px;line-height:1.7;color:#222;word-break:normal;overflow-wrap:anywhere;line-break:strict;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div>'+
+                urlHtml+nextHtml+'</div>';
+            layer.bindPopup(popupContent,{maxHeight:430,maxWidth:320,minWidth:220,keepInView:true,autoPan:true});
         }
-        function style__C01__2_0(feature) {
+        function style__C01_Master_C01__2_0(feature) {
             var context = {
                 feature: feature,
                 variables: {}
             };
             // Start of if blocks and style check logic
-            if (exp__C01__2rule0_eval_expression(context)) {
+            if (exp__C01_Master_C01__2rule0_eval_expression(context)) {
                   return {
-                pane: 'pane__C01__2',
+                pane: 'pane__C01_Master_C01__2',
                 radius: 6.6,
                 opacity: 1,
                 color: 'rgba(34,139,34,1.0)',
@@ -538,9 +370,9 @@
                 interactive: true,
             };
                 }
-                else if (exp__C01__2rule1_eval_expression(context)) {
+                else if (exp__C01_Master_C01__2rule1_eval_expression(context)) {
                   return {
-                pane: 'pane__C01__2',
+                pane: 'pane__C01_Master_C01__2',
                 radius: 9.0,
                 opacity: 1,
                 color: 'rgba(34,102,68,1.0)',
@@ -558,64 +390,42 @@
                 return {fill: false, stroke: false};
             }
         }
-        map.createPane('pane__C01__2');
-        map.getPane('pane__C01__2').style.zIndex = 402;
-        map.getPane('pane__C01__2').style['mix-blend-mode'] = 'normal';
-        var layer__C01__2 = new L.geoJson(json__C01__2, {
+        map.createPane('pane__C01_Master_C01__2');
+        map.getPane('pane__C01_Master_C01__2').style.zIndex = 402;
+        map.getPane('pane__C01_Master_C01__2').style['mix-blend-mode'] = 'normal';
+        var layer__C01_Master_C01__2 = new L.geoJson(json__C01_Master_C01__2, {
             attribution: '',
             interactive: true,
-            dataVar: 'json__C01__2',
-            layerName: 'layer__C01__2',
-            pane: 'pane__C01__2',
-            onEachFeature: pop__C01__2,
+            dataVar: 'json__C01_Master_C01__2',
+            layerName: 'layer__C01_Master_C01__2',
+            pane: 'pane__C01_Master_C01__2',
+            onEachFeature: pop__C01_Master_C01__2,
             pointToLayer: function (feature, latlng) {
-                var poiType = String(feature.properties['POI_TYPE'] || '').toUpperCase();
-                if (poiType === 'RECOMMEND') {
-                    return L.marker(latlng, {
-                        icon: L.divIcon({
-                            className: 'recommend-star-icon',
-                            html: '<span class="star">★</span>',
-                            iconSize: [22, 22],
-                            iconAnchor: [11, 11],
-                            popupAnchor: [0, -10]
-                        })
-                    });
+                var poiType=String(feature.properties['POI_TYPE']||'').toUpperCase();
+                if(poiType==='RECOMMEND'){
+                    return L.marker(latlng,{icon:L.divIcon({
+                        className:'recommend-star-icon',html:'<span class="star">★</span>',
+                        iconSize:[22,22],iconAnchor:[11,11],popupAnchor:[0,-10]
+                    })});
                 }
-                return L.circleMarker(latlng, style__C01__2_0(feature));
+                return L.circleMarker(latlng,{pane:'pane__C01_Master_C01__2',radius:6.6,opacity:1,color:'rgba(34,139,34,1.0)',weight:3,fill:true,fillOpacity:1,fillColor:'rgba(255,255,255,1.0)',interactive:true});
             },
         });
-        bounds_group.addLayer(layer__C01__2);
-        map.addLayer(layer__C01__2);
-        function pop__C01__3(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                },
-                mouseover: highlightFeature,
-            });
-            var popupContent =
-                '<div style="font-family:\'맑은 고딕\',sans-serif;width:250px;max-width:calc(100vw - 90px);box-sizing:border-box;">' +
-                    '<div style="font-size:17px;font-weight:bold;color:#9a6500;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid #ead58a;">' +
-                        (feature.properties['NAME'] !== null ? feature.properties['NAME'] : '횡단 안내') +
-                    '</div>' +
-                    '<div style="font-size:14px;line-height:1.65;color:#222;word-break:normal;overflow-wrap:anywhere;line-break:strict;white-space:normal;">' +
-                        (feature.properties['DESCRIPTION'] !== null ? feature.properties['DESCRIPTION'] : '') +
-                    '</div>' +
-                '</div>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-            layer.on('popupopen', function(e) {
-                addClassToPopupIfMedia(content, e.popup);
-            });
-            layer.bindPopup(content, { maxHeight: 300, maxWidth: 290, minWidth: 200, keepInView: true, autoPan: true });
+        bounds_group.addLayer(layer__C01_Master_C01__2);
+        map.addLayer(layer__C01_Master_C01__2);
+        function pop__C01_Master_C01__3(feature, layer) {
+            var photo=photoSrc(feature.properties['PHOTO']);
+            var photoHtml=photo?'<div style="margin-bottom:10px;"><img src="'+photo+'" style="width:100%;max-width:100%;height:auto;object-fit:contain;border-radius:8px;margin:0 0 10px 0;box-shadow:0 2px 6px rgba(0,0,0,.2);display:block;box-sizing:border-box;" onerror="this.parentElement.style.display=\'none\'"></div>':'';
+            var popupContent="<div style=\"font-family:'맑은 고딕',sans-serif;width:260px;max-width:calc(100vw - 110px);box-sizing:border-box;\">"+
+                photoHtml+
+                '<div style="font-size:17px;font-weight:bold;color:#9a6500;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid #ead58a;">'+(safeText(feature.properties['NAME'])||'이동 안내')+'</div>'+
+                '<div style="font-size:14px;line-height:1.65;color:#222;word-break:normal;overflow-wrap:anywhere;line-break:strict;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div></div>';
+            layer.bindPopup(popupContent,{maxHeight:420,maxWidth:320,minWidth:220,keepInView:true,autoPan:true});
         }
 
-        function style__C01__3_0() {
+        function style__C01_Master_C01__3_0() {
             return {
-                pane: 'pane__C01__3',
+                pane: 'pane__C01_Master_C01__3',
                 radius: 6.0,
                 opacity: 1,
                 color: 'rgba(0,0,0,1.0)',
@@ -629,95 +439,66 @@
                 interactive: true,
             }
         }
-        map.createPane('pane__C01__3');
-        map.getPane('pane__C01__3').style.zIndex = 403;
-        map.getPane('pane__C01__3').style['mix-blend-mode'] = 'normal';
-        var layer__C01__3 = new L.geoJson(json__C01__3, {
+        map.createPane('pane__C01_Master_C01__3');
+        map.getPane('pane__C01_Master_C01__3').style.zIndex = 403;
+        map.getPane('pane__C01_Master_C01__3').style['mix-blend-mode'] = 'normal';
+        var layer__C01_Master_C01__3 = new L.geoJson(json__C01_Master_C01__3, {
             attribution: '',
             interactive: true,
-            dataVar: 'json__C01__3',
-            layerName: 'layer__C01__3',
-            pane: 'pane__C01__3',
-            onEachFeature: pop__C01__3,
+            dataVar: 'json__C01_Master_C01__3',
+            layerName: 'layer__C01_Master_C01__3',
+            pane: 'pane__C01_Master_C01__3',
+            onEachFeature: pop__C01_Master_C01__3,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style__C01__3_0(feature));
+                return L.circleMarker(latlng, style__C01_Master_C01__3_0(feature));
             },
         });
-        bounds_group.addLayer(layer__C01__3);
-        map.addLayer(layer__C01__3);
-        var overlaysTree = [
-            {label: '<img src="legend/_C01__3.png" /> 횡단 안내', layer: layer__C01__3},
-            {label: '종로구_C01_명소<br /><table><tr><td style="text-align: center;"><img src="legend/_C01__2_MAIN0.png" /></td><td>주요 명소</td></tr><tr><td style="text-align: center;"><img src="legend/_C01__2_RECOMMEND1.png" /></td><td>추천 명소</td></tr></table>', layer: layer__C01__2},
-            {label: '<img src="legend/_C01__1.png" /> 탐방 경로', layer: layer__C01__1},
-            {label: "OpenStreetMap", layer: layer_OpenStreetMap_0},]
-        var lay = L.control.layers.tree(null, overlaysTree,{
-            //namedToggle: true,
-            //selectorBack: false,
-            //closedSymbol: '&#8862; &#x1f5c0;',
-            //openedSymbol: '&#8863; &#x1f5c1;',
-            //collapseAll: 'Collapse all',
-            //expandAll: 'Expand all',
-            collapsed: true,
-        });
-        lay.addTo(map);
+        bounds_group.addLayer(layer__C01_Master_C01__3);
+        map.addLayer(layer__C01_Master_C01__3);
         setBounds();
         var i = 0;
-        layer__C01__2.eachLayer(function(layer) {
+        layer__C01_Master_C01__2.eachLayer(function(layer) {
             var context = {
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((exp_label__C01__2_eval_expression(context) !== null?String('<div style="color: #0046a0; font-size: 9pt; font-weight: bold; font-family: \'맑은 고딕\', sans-serif;">' + exp_label__C01__2_eval_expression(context)) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css__C01__2'});
+            layer.bindTooltip((layer.feature.properties['WEB_LABEL'] !== null?String('<div style="color: #0046a0; font-size: 9pt; font-weight: bold; font-family: \'맑은 고딕\', sans-serif;">' + layer.feature.properties['WEB_LABEL']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css__C01_Master_C01__2'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
               addLabel(layer, i);
               i++;
         });
-        resetLabels([layer__C01__1,layer__C01__2]);
+        resetLabels([layer__C01_Master_C01__2]);
         map.on("zoomend", function(){
-            resetLabels([layer__C01__1,layer__C01__2]);
+            resetLabels([layer__C01_Master_C01__2]);
         });
         map.on("layeradd", function(){
-            resetLabels([layer__C01__1,layer__C01__2]);
+            resetLabels([layer__C01_Master_C01__2]);
         });
         map.on("layerremove", function(){
-            resetLabels([layer__C01__1,layer__C01__2]);
+            resetLabels([layer__C01_Master_C01__2]);
         });
 
-        // 첫 화면 안내 팝업
-        (function () {
-            var overlay = document.getElementById('introOverlay');
-            var closeBtn = document.getElementById('introClose');
-            var confirmBtn = document.getElementById('introConfirm');
-            var dontShow = document.getElementById('introDontShow');
-            var storageKey = 'wanjaeIntroHiddenDate';
-            var todayKey = new Date().toISOString().slice(0, 10);
-
-            try {
-                if (localStorage.getItem(storageKey) === todayKey) {
-                    overlay.classList.add('is-hidden');
-                }
-            } catch (e) {}
-
-            function closeIntro() {
-                if (dontShow.checked) {
-                    try {
-                        localStorage.setItem(storageKey, todayKey);
-                    } catch (e) {}
-                }
-                overlay.classList.add('is-hidden');
+        (function(){
+            var overlay=document.getElementById('introOverlay');
+            var closeBtn=document.getElementById('introClose');
+            var confirmBtn=document.getElementById('introConfirm');
+            var dontShow=document.getElementById('introDontShow');
+            var storageKey='wanjaeIntroHiddenDate_c01';
+            var todayKey=new Date().toISOString().slice(0,10);
+            try{if(localStorage.getItem(storageKey)===todayKey)overlay.classList.add('is-hidden');}catch(e){}
+            function closeIntro(){
+                if(dontShow && dontShow.checked){try{localStorage.setItem(storageKey,todayKey);}catch(e){}}
+                if(overlay)overlay.classList.add('is-hidden');
             }
-
-            closeBtn.addEventListener('click', closeIntro);
-            confirmBtn.addEventListener('click', closeIntro);
-            overlay.addEventListener('click', function (e) {
-                if (e.target === overlay) closeIntro();
-            });
+            if(closeBtn)closeBtn.addEventListener('click',closeIntro);
+            if(confirmBtn)confirmBtn.addEventListener('click',closeIntro);
+            if(overlay)overlay.addEventListener('click',function(e){if(e.target===overlay)closeIntro();});
         })();
         </script>
     </body>

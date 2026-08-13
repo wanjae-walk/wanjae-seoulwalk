@@ -757,33 +757,7 @@ function fnc_project_color(values, context) {
 
 
 
-function exp_label__C01__2_eval_expression(context) {
-    // coalesce(WEB_LABEL, NAME)
-
-    var feature = context.feature;
-    
-    if (feature.properties) {
-        return fnc_coalesce([feature.properties['WEB_LABEL'] ,feature.properties['NAME'] ], context);
-    } else {
-        return fnc_coalesce([feature['WEB_LABEL'] ,feature['NAME'] ], context);
-    }
-}
-
-
-function exp_label__C01__2_eval_expression(context) {
-    // coalesce(WEB_LABEL, NAME)
-
-    var feature = context.feature;
-    
-    if (feature.properties) {
-        return fnc_coalesce([feature.properties['WEB_LABEL'] ,feature.properties['NAME'] ], context);
-    } else {
-        return fnc_coalesce([feature['WEB_LABEL'] ,feature['NAME'] ], context);
-    }
-}
-
-
-function exp__C01__2rule0_eval_expression(context) {
+function exp__C01_Master_C01__2rule0_eval_expression(context) {
     // POI_TYPE = 'MAIN'
 
     var feature = context.feature;
@@ -796,7 +770,7 @@ function exp__C01__2rule0_eval_expression(context) {
 }
 
 
-function exp__C01__2rule1_eval_expression(context) {
+function exp__C01_Master_C01__2rule1_eval_expression(context) {
     // POI_TYPE = 'RECOMMEND'
 
     var feature = context.feature;
