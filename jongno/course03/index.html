@@ -456,7 +456,10 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
             var photoHtml=photo?'<div style="margin-bottom:10px;"><img src="'+photo+'" style="width:100%;height:170px;object-fit:cover;border-radius:8px;display:block;" onerror="this.style.display=\'none\'"></div>':'';
             var nextPoi=safeText(feature.properties['NEXT_POI']).trim(), nextDist=safeText(feature.properties['NEXT_DIST']).trim(), nextTime=safeText(feature.properties['NEXT_TIME']).trim(), nextGuide=safeText(feature.properties['NEXT_GUIDE']).trim();
             var nextHtml='';
-            if(nextPoi==='코스 종료') nextHtml='<div class="finish-box">🏁 종로구 제3코스 종료</div>';
+            var poiName=(safeText(feature.properties['WEB_LABEL'])||safeText(feature.properties['NAME'])).trim();
+            if(nextPoi==='코스 종료' || poiName.indexOf('청계광장')!==-1) {
+                nextHtml='<div class="finish-box">🏁 종로구 제3코스 종료</div>';
+            }
             else if(nextPoi){var meta=[nextDist?(nextDist+' km'):'',nextTime?(nextTime+'분'):''].filter(Boolean).join(' · '); nextHtml='<div class="next-box"><div class="next-title">🚶 다음 명소 → '+nextPoi+'</div>'+(meta?'<div class="next-meta">'+meta+'</div>':'')+(nextGuide?'<div class="next-guide">'+nextGuide+'</div>':'')+'</div>';}
             var urlHtml=url?'<div style="margin-top:12px;padding-top:10px;border-top:1px solid #e2e2e2;"><a href="'+url+'" target="_blank" style="color:#174a7e;font-weight:bold;text-decoration:none;">🔗 공식 홈페이지</a></div>':'';
             var popupContent='<div style="font-family:맑은 고딕,sans-serif;width:260px;max-width:calc(100vw - 120px);box-sizing:border-box;">'+photoHtml+'<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">'+(safeText(feature.properties['WEB_LABEL'])||safeText(feature.properties['NAME']))+'</div><div style="font-size:14px;line-height:1.7;color:#222;overflow-wrap:anywhere;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div>'+urlHtml+nextHtml+'</div>';
