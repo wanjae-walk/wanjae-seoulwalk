@@ -4,12 +4,13 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+
         <meta property="og:type" content="website">
         <meta property="og:title" content="완재의 서울걷기 | 종로구 제3코스">
         <meta property="og:description" content="왕실의 제례와 근대 서울을 걷다">
         <meta property="og:url" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/course03/">
-        <meta property="og:image" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course03_cover.png?v=20260824">
-        <meta property="og:image:secure_url" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course03_cover.png?v=20260824">
+        <meta property="og:image" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course03_cover_v2.png">
+        <meta property="og:image:secure_url" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course03_cover_v2.png">
         <meta property="og:image:type" content="image/png">
         <meta property="og:image:width" content="1476">
         <meta property="og:image:height" content="845">
@@ -18,7 +19,7 @@
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="완재의 서울걷기 | 종로구 제3코스">
         <meta name="twitter:description" content="왕실의 제례와 근대 서울을 걷다">
-        <meta name="twitter:image" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course03_cover.png?v=20260824">
+        <meta name="twitter:image" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course03_cover_v2.png">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
@@ -29,6 +30,11 @@
         <style>
 html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#fff}
 #map{width:100vw;height:100vh}
+
+.map-nav{position:fixed;top:12px;right:14px;z-index:9999;width:170px;display:flex;flex-direction:column;overflow:hidden;background:rgba(255,255,255,.96);border:1px solid #174a7e;border-radius:9px;box-shadow:0 2px 8px rgba(0,0,0,.20)}
+.map-nav a{display:flex;align-items:center;justify-content:center;min-height:38px;padding:7px 6px;box-sizing:border-box;text-align:center;border-bottom:1px solid rgba(23,74,126,.32);color:#174a7e;font-family:"Noto Sans KR","맑은 고딕",sans-serif;font-size:12px;line-height:1.25;font-weight:700;text-decoration:none;white-space:nowrap}
+.map-nav a:last-child{border-bottom:0}.map-nav a:hover{background:#174a7e;color:#fff}
+.leaflet-popup-close-button{top:5px!important;right:7px!important;width:24px!important;height:24px!important;line-height:24px!important;z-index:2}
 .leaflet-popup-content-wrapper{box-sizing:border-box;overflow:hidden}
 .leaflet-popup-content{margin:26px 16px 16px!important;box-sizing:border-box}
 .next-box{margin-top:14px;padding-top:12px;border-top:1px solid #d9d9d9}.next-title{font-size:14px;font-weight:800;color:#174a7e;margin-bottom:5px}.next-meta{font-size:13px;font-weight:700;color:#555;margin-bottom:6px}.next-guide{font-size:13px;line-height:1.6;color:#333}.finish-box{margin-top:14px;padding-top:12px;border-top:1px solid #d9d9d9;font-size:15px;font-weight:800;color:#d97706}
