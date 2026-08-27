@@ -1,0 +1,940 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="완재의 서울걷기 | 종로구 제3코스">
+        <meta property="og:description" content="왕실의 제례와 근대 서울을 걷다">
+        <meta property="og:image" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course03_cover_final.png">
+        <meta property="og:image:secure_url" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course03_cover_final.png">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="900">
+        <meta property="og:url" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/course03/">
+        <meta property="og:site_name" content="완재의 서울걷기">
+        <meta property="og:locale" content="ko_KR">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="완재의 서울걷기 | 종로구 제3코스">
+        <meta name="twitter:description" content="왕실의 제례와 근대 서울을 걷다">
+        <meta name="twitter:image" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course03_cover_final.png">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/L.Control.Layers.Tree.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet.photon.css">
+        <style>
+html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#fff}
+#map{width:100vw;height:100vh}
+
+.map-nav{position:fixed;top:12px;right:14px;z-index:9999;width:170px;display:flex;flex-direction:column;overflow:hidden;background:rgba(255,255,255,.96);border:1px solid #174a7e;border-radius:9px;box-shadow:0 2px 8px rgba(0,0,0,.20)}
+.map-nav a{display:flex;align-items:center;justify-content:center;min-height:38px;padding:7px 6px;box-sizing:border-box;text-align:center;border-bottom:1px solid rgba(23,74,126,.32);color:#174a7e;font-family:"Noto Sans KR","맑은 고딕",sans-serif;font-size:12px;line-height:1.25;font-weight:700;text-decoration:none;white-space:nowrap}
+.map-nav a:last-child{border-bottom:0}.map-nav a:hover{background:#174a7e;color:#fff}
+.leaflet-popup-close-button{top:5px!important;right:7px!important;width:24px!important;height:24px!important;line-height:24px!important;z-index:2}
+.leaflet-popup-content-wrapper{box-sizing:border-box;overflow:hidden}
+.leaflet-popup-content{margin:26px 16px 16px!important;box-sizing:border-box}
+.next-box{margin-top:14px;padding-top:12px;border-top:1px solid #d9d9d9}.next-title{font-size:14px;font-weight:800;color:#174a7e;margin-bottom:5px}.next-meta{font-size:13px;font-weight:700;color:#555;margin-bottom:6px}.next-guide{font-size:13px;line-height:1.6;color:#333}.finish-box{margin-top:14px;padding-top:12px;border-top:1px solid #d9d9d9;font-size:15px;font-weight:800;color:#d97706}
+        .recommend-star-icon{background:transparent!important;border:none!important;}
+        
+.intro-overlay{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.28);box-sizing:border-box}
+.intro-overlay.is-hidden{display:none}
+.intro-card{position:relative;width:min(390px,calc(100vw - 36px));box-sizing:border-box;padding:28px 22px 20px;background:rgba(255,255,255,.98);border-radius:18px;box-shadow:0 8px 28px rgba(0,0,0,.28);font-family:"Noto Sans KR","맑은 고딕",sans-serif;color:#222;text-align:center}
+.intro-close{position:absolute;top:10px;right:12px;border:0;background:transparent;color:#444;font-size:26px;line-height:1;cursor:pointer}
+.intro-icon{width:54px;height:54px;margin:0 auto 12px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#174a7e;color:#fff;font-size:30px}
+.intro-title{margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid #d8d8d8;color:#174a7e;font-size:24px;line-height:1.3;font-weight:800}
+.intro-text{margin:0;font-size:15px;line-height:1.8;word-break:keep-all}
+.intro-emphasis{margin:16px 0 0;color:#174a7e;font-size:18px;font-weight:800}
+.intro-complete-date{margin:10px 0 0;color:#d97706;font-size:14px;font-weight:800;letter-spacing:.2px}
+.intro-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;padding-top:14px;border-top:1px solid #d8d8d8}
+.intro-check{display:flex;align-items:center;gap:6px;color:#666;font-size:13px;text-align:left}
+.intro-confirm{min-width:88px;padding:10px 18px;border:0;border-radius:8px;background:#174a7e;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+@media(max-width:480px){.intro-card{padding:26px 18px 18px}.intro-title{font-size:22px}.intro-text{font-size:14px;line-height:1.75}.map-nav{width:170px;right:12px;top:12px}}
+
+
+/* ===== GPS FINAL TEST: fixed person + zoom + brighter direction light + pulse ===== */
+.gps-test-control{
+    position:fixed;right:18px;bottom:24px;z-index:10020;
+    width:56px;height:56px;border:0;border-radius:50%;
+    background:#1f1f1f;color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.30);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.gps-test-control svg{width:31px;height:31px;display:block}
+.gps-test-control.is-active{background:#174a7e}
+.gps-test-control:focus{outline:3px solid rgba(0,102,255,.35);outline-offset:2px}
+
+.gps-person-marker{
+    background:transparent!important;border:0!important;
+}
+.gps-person-wrap{
+    position:relative;width:64px;height:64px;
+    transform-origin:32px 32px;
+    transition:transform .20s ease-out;
+    will-change:transform;
+}
+.gps-person-wrap svg{
+    width:64px;height:64px;display:block;
+    filter:drop-shadow(0 1px 2px rgba(0,0,0,.28));
+}
+.gps-status{
+    position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+    z-index:10019;padding:7px 11px;border-radius:16px;
+    background:rgba(0,0,0,.72);color:#fff;
+    font-family:"Noto Sans KR","맑은 고딕",sans-serif;
+    font-size:12px;line-height:1.3;white-space:nowrap;
+    pointer-events:none;opacity:0;transition:opacity .2s;
+}
+.gps-status.show{opacity:1}
+@media(max-width:480px){
+    .gps-test-control{right:14px;bottom:22px;width:54px;height:54px}
+}
+
+
+
+/* ===== GPS FINAL TEST: static person + soft 44° direction light ===== */
+.gps-person-wrap{
+    overflow:visible !important;
+}
+.gps-person-static{
+    position:relative;
+    z-index:2;
+}
+.gps-direction-light{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:92px;
+    height:96px;
+    margin-left:-46px;
+    margin-top:-88px;
+    transform-origin:46px 88px;
+    pointer-events:none;
+    z-index:1;
+    opacity:.90;
+    clip-path:polygon(50% 92%, 18% 0%, 82% 0%);
+    background:linear-gradient(
+        to top,
+        rgba(45,145,255,.42) 0%,
+        rgba(45,145,255,.28) 42%,
+        rgba(45,145,255,.11) 78%,
+        rgba(65,155,255,0) 100%
+    );
+    filter:blur(.7px);
+    transition:transform .46s ease-out;
+}
+@media (prefers-reduced-motion: reduce){
+    .gps-direction-light{transition:none}
+}
+
+
+/* ===== GPS FINAL: subtle person pulse (independent from GPS and direction light) ===== */
+.gps-person-pulse{
+    transform-box:fill-box;
+    transform-origin:center;
+    animation:gpsFinalPersonPulse 1.9s ease-in-out infinite;
+}
+@keyframes gpsFinalPersonPulse{
+    0%,100%{
+        transform:scale(1);
+        filter:brightness(.92);
+    }
+    50%{
+        transform:scale(1.06);
+        filter:brightness(1.20);
+    }
+}
+@media (prefers-reduced-motion: reduce){
+    .gps-person-pulse{animation:none}
+}
+
+</style>
+        <title>완재의 서울걷기 | 종로구 제3코스</title>
+    </head>
+    <body>
+
+        <div class="map-nav">
+            <a href="../index.html">← 종로구 7개 코스</a>
+            <a href="../../index.html">⌂ 서울 25개 자치구</a>
+            <a href="https://cafe.daum.net/earth1985" target="_blank" rel="noopener noreferrer">☕ 완재의 서울걷기 카페</a>
+        </div>
+
+        <div id="map">
+        </div>
+
+<button id="gpsTestBtn" class="gps-test-control" type="button" aria-label="현재 위치 표시" title="현재 위치">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="8.5" fill="none" stroke="#58b9ff" stroke-width="2.3"/>
+        <circle cx="16" cy="16" r="3.7" fill="#58b9ff"/>
+        <path d="M16 2.5v4.2M16 25.3v4.2M2.5 16h4.2M25.3 16h4.2" stroke="#58b9ff" stroke-width="2.3" stroke-linecap="round"/>
+    </svg>
+</button>
+<div id="gpsStatus" class="gps-status" role="status" aria-live="polite"></div>
+
+
+<div id="introOverlay" class="intro-overlay" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+            <div class="intro-card">
+                <button id="introClose" class="intro-close" type="button" aria-label="안내 닫기">×</button>
+                <div class="intro-icon" aria-hidden="true">🚶</div>
+                <h1 id="introTitle" class="intro-title">완재의 서울걷기 안내</h1>
+                <p class="intro-text">
+                    이 지도는 직접 답사하여 정리한 하나의 추천 경로입니다.<br>
+                    길에는 정답이 없으니, 현재의 보행 환경과 안전을 확인한 후 참고용으로 이용해 주세요.<br>
+                    표시된 길을 따라 걷다가 자신만의 좋은 골목을 발견해 보셔도 좋습니다.
+                </p>
+                <p class="intro-emphasis">길은 어디로든 통합니다.</p>
+                <p class="intro-complete-date">코스 완성 · 2026. 8. 24.</p>
+                <div class="intro-footer">
+                    <label class="intro-check"><input id="introDontShow" type="checkbox">오늘은 다시 보지 않기</label>
+                    <button id="introConfirm" class="intro-confirm" type="button">확인</button>
+                </div>
+            </div>
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/L.Control.Layers.Tree.min.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet.photon.js"></script>
+        <script src="data/__1.js"></script>
+        <script src="data/_C03_Master_C03__2.js"></script>
+        <script src="data/_C03__3.js"></script>
+        <script src="data/_C03__4.js"></script>
+        <script src="data/_C03_Master_C03__5.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:false, maxZoom:28, minZoom:1
+        }).fitBounds([[37.566593816000086,126.97600507887314],[37.57732995692246,126.99691539226465]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/qgis2web/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        function safeText(v){return(v===null||v===undefined||String(v).toUpperCase()==='NULL')?'':String(v);}
+        function photoSrc(v){if(!v)return '';var x=String(v).replace(/\\/g,'/').trim();return 'images/'+x.split('/').pop();}
+        function safeUrl(v){var x=safeText(v).trim();return /^https?:\/\//i.test(x)?x.replace(/"/g,'&quot;'):'';}
+        // remove popup's row if "visible-with-data"
+        function removeEmptyRowsFromPopupContent(content, feature) {
+         var tempDiv = document.createElement('div');
+         tempDiv.innerHTML = content;
+         var rows = tempDiv.querySelectorAll('tr');
+         for (var i = 0; i < rows.length; i++) {
+             var td = rows[i].querySelector('td.visible-with-data');
+             var key = td ? td.id : '';
+             if (td && td.classList.contains('visible-with-data') && feature.properties[key] == null) {
+                 rows[i].parentNode.removeChild(rows[i]);
+             }
+         }
+         return tempDiv.innerHTML;
+        }
+        // modify popup if contains media
+        function addClassToPopupIfMedia(content, popup) {
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = content;
+            var imgTd = tempDiv.querySelector('td img');
+            if (imgTd) {
+                var src = imgTd.getAttribute('src');
+                if (/\.(jpg|jpeg|png|gif|bmp|webp|avif)$/i.test(src)) {
+                    popup._contentNode.classList.add('media');
+                    var img = popup._contentNode.querySelector('td img');
+                    if (img) {
+                        // If already loaded (cache), update immediately
+                        if (img.complete && img.naturalHeight > 0) {
+                            popup.update();
+                        } else {
+                            img.addEventListener('load', function() {
+                                popup.update();
+                            });
+                            img.addEventListener('error', function() {
+                                popup.update();
+                            });
+                        }
+                    }
+                } else if (/\.(mp3|wav|ogg|aac)$/i.test(src)) {
+                    var audio = document.createElement('audio');
+                    audio.controls = true;
+                    audio.src = src;
+                    imgTd.parentNode.replaceChild(audio, imgTd);
+                    popup._contentNode.classList.add('media');
+                    setTimeout(function() {
+                        popup.setContent(tempDiv.innerHTML);
+                        popup.update();
+                    }, 10);
+                } else if (/\.(mp4|webm|ogg|mov)$/i.test(src)) {
+                    var video = document.createElement('video');
+                    video.controls = true;
+                    video.src = src;
+                    video.style.width = "400px";
+                    video.style.height = "300px";
+                    video.style.maxHeight = "60vh";
+                    video.style.maxWidth = "60vw";
+                    imgTd.parentNode.replaceChild(video, imgTd);
+                    popup._contentNode.classList.add('media');
+                    // Aggiorna il popup quando il video carica i metadati
+                    video.addEventListener('loadedmetadata', function() {
+                        popup.update();
+                    });
+                    setTimeout(function() {
+                        popup.setContent(tempDiv.innerHTML);
+                        popup.update();
+                    }, 10);
+                } else {
+                    popup._contentNode.classList.remove('media');
+                }
+            } else {
+                popup._contentNode.classList.remove('media');
+            }
+        }
+        var zoomControl = L.control.zoom({
+            position: 'topleft'
+        }).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_OpenStreetMap_0');
+        map.getPane('pane_OpenStreetMap_0').style.zIndex = 400;
+        var layer_OpenStreetMap_0 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OpenStreetMap_0',
+            opacity: 0.7,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OpenStreetMap_0;
+        map.addLayer(layer_OpenStreetMap_0);
+        function pop___1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['EMD_CD'] !== null ? autolinker.link(String(feature.properties['EMD_CD']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COL_ADM_SE'] !== null ? autolinker.link(String(feature.properties['COL_ADM_SE']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['EMD_NM'] !== null ? autolinker.link(String(feature.properties['EMD_NM']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SGG_OID'] !== null ? autolinker.link(String(feature.properties['SGG_OID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['종로구_QGIS_JOIN_87_UTF8_EMD_NAME'] !== null ? autolinker.link(String(feature.properties['종로구_QGIS_JOIN_87_UTF8_EMD_NAME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['종로구_QGIS_JOIN_87_UTF8_ADM_NAME'] !== null ? autolinker.link(String(feature.properties['종로구_QGIS_JOIN_87_UTF8_ADM_NAME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['종로구_QGIS_JOIN_87_UTF8_ADM_COUNT'] !== null ? autolinker.link(String(feature.properties['종로구_QGIS_JOIN_87_UTF8_ADM_COUNT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['종로구_QGIS_JOIN_87_UTF8_RELATION_TYPE'] !== null ? autolinker.link(String(feature.properties['종로구_QGIS_JOIN_87_UTF8_RELATION_TYPE']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['종로구_QGIS_JOIN_87_UTF8_DISSOLVE_OK'] !== null ? autolinker.link(String(feature.properties['종로구_QGIS_JOIN_87_UTF8_DISSOLVE_OK']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['종로구_QGIS_JOIN_87_UTF8_COURSE_NO'] !== null ? autolinker.link(String(feature.properties['종로구_QGIS_JOIN_87_UTF8_COURSE_NO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['종로구_QGIS_JOIN_87_UTF8_COURSE_NAME'] !== null ? autolinker.link(String(feature.properties['종로구_QGIS_JOIN_87_UTF8_COURSE_NAME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['종로구_QGIS_JOIN_87_UTF8_HERITAGE'] !== null ? autolinker.link(String(feature.properties['종로구_QGIS_JOIN_87_UTF8_HERITAGE']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['종로구_QGIS_JOIN_87_UTF8_PHOTO'] !== null ? autolinker.link(String(feature.properties['종로구_QGIS_JOIN_87_UTF8_PHOTO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['종로구_QGIS_JOIN_87_UTF8_MEMO'] !== null ? autolinker.link(String(feature.properties['종로구_QGIS_JOIN_87_UTF8_MEMO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style___1_0() {
+            return {
+                pane: 'pane___1',
+                opacity: 1,
+                color: 'rgba(110,110,110,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(145,82,45,0.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane___1');
+        map.getPane('pane___1').style.zIndex = 401;
+        map.getPane('pane___1').style['mix-blend-mode'] = 'normal';
+        var layer___1 = new L.geoJson(json___1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json___1',
+            layerName: 'layer___1',
+            pane: 'pane___1',
+            onEachFeature: pop___1,
+            style: style___1_0,
+        });
+        bounds_group.addLayer(layer___1);
+        map.addLayer(layer___1);
+        function pop__C03_Master_C03__2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(String(feature.properties['fid']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['COURSE_NO'] !== null ? autolinker.link(String(feature.properties['COURSE_NO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['THEME'] !== null ? autolinker.link(String(feature.properties['THEME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SEG_NO'] !== null ? autolinker.link(String(feature.properties['SEG_NO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['START_PT'] !== null ? autolinker.link(String(feature.properties['START_PT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['END_PT'] !== null ? autolinker.link(String(feature.properties['END_PT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DIST_KM'] !== null ? autolinker.link(String(feature.properties['DIST_KM']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WALK_TIME'] !== null ? autolinker.link(String(feature.properties['WALK_TIME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DIRECTION'] !== null ? autolinker.link(String(feature.properties['DIRECTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['MEMO'] !== null ? autolinker.link(String(feature.properties['MEMO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['VIA_PT'] !== null ? autolinker.link(String(feature.properties['VIA_PT']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DESCRIPTION'] !== null ? autolinker.link(String(feature.properties['DESCRIPTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ROUTE_TYPE'] !== null ? autolinker.link(String(feature.properties['ROUTE_TYPE']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['WEB_LABEL'] !== null ? autolinker.link(String(feature.properties['WEB_LABEL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+			layer.on('popupopen', function(e) {
+				addClassToPopupIfMedia(content, e.popup);
+			});
+			layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style__C03_Master_C03__2_0() {
+            return {
+                pane: 'pane__C03_Master_C03__2',
+                opacity: 1,
+                color: 'rgba(0,128,0,1.0)',
+                dashArray: '',
+                lineCap: 'round',
+                lineJoin: 'round',
+                weight: 7.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        function style__C03_Master_C03__2_1() {
+            return {
+                pane: 'pane__C03_Master_C03__2',
+                opacity: 1,
+                color: 'rgba(0,128,0,1.0)',
+                dashArray: '',
+                lineCap: 'round',
+                lineJoin: 'round',
+                weight: 8.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane__C03_Master_C03__2');
+        map.getPane('pane__C03_Master_C03__2').style.zIndex = 402;
+        map.getPane('pane__C03_Master_C03__2').style['mix-blend-mode'] = 'normal';
+        var layer__C03_Master_C03__2 = new L.geoJson.multiStyle(json__C03_Master_C03__2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json__C03_Master_C03__2',
+            layerName: 'layer__C03_Master_C03__2',
+            pane: 'pane__C03_Master_C03__2',
+            onEachFeature: pop__C03_Master_C03__2,
+            styles: [style__C03_Master_C03__2_0,style__C03_Master_C03__2_1,]
+        });
+        bounds_group.addLayer(layer__C03_Master_C03__2);
+        map.addLayer(layer__C03_Master_C03__2);
+        function pop__C03__3(feature, layer) {
+            var photo=photoSrc(feature.properties['PHOTO']);
+            var photoHtml=photo?'<div style="margin-bottom:10px;"><img src="'+photo+'" style="width:100%;max-width:100%;height:auto;object-fit:contain;border-radius:8px;margin:0 0 10px 0;box-shadow:0 2px 6px rgba(0,0,0,.2);display:block;box-sizing:border-box;" onerror="this.style.display=\'none\'"></div>':'';
+            var popupContent =
+                '<div style="font-family:\'맑은 고딕\',sans-serif;width:260px;max-width:calc(100vw - 110px);box-sizing:border-box;">' +
+                    photoHtml +
+                    '<div style="font-size:17px;font-weight:bold;color:#9a6500;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid #ead58a;">'+(safeText(feature.properties['NAME'])||'이동 안내')+'</div>' +
+                    '<div style="font-size:14px;line-height:1.65;color:#222;overflow-wrap:anywhere;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div>' +
+                '</div>';
+            layer.bindPopup(popupContent,{maxHeight:420,maxWidth:320,minWidth:220,keepInView:true,autoPan:true});
+        }
+
+        function style__C03__3_0() {
+            return {
+                pane: 'pane__C03__3',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,215,0,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane__C03__3');
+        map.getPane('pane__C03__3').style.zIndex = 403;
+        map.getPane('pane__C03__3').style['mix-blend-mode'] = 'normal';
+        var layer__C03__3 = new L.geoJson(json__C03__3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json__C03__3',
+            layerName: 'layer__C03__3',
+            pane: 'pane__C03__3',
+            onEachFeature: pop__C03__3,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style__C03__3_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer__C03__3);
+        map.addLayer(layer__C03__3);
+        function pop__C03__4(feature, layer) {
+            var photo=photoSrc(feature.properties['PHOTO']);
+            var photoHtml=photo?'<div style="margin-bottom:10px;"><img src="'+photo+'" style="width:100%;max-width:100%;height:auto;object-fit:contain;border-radius:8px;margin:0 0 10px 0;box-shadow:0 2px 6px rgba(0,0,0,.2);display:block;box-sizing:border-box;" onerror="this.style.display=\'none\'"></div>':'';
+            var url=safeUrl(feature.properties['URL']);
+            var urlHtml=url?'<div style="margin-top:12px;padding-top:10px;border-top:1px solid #e2e2e2;"><a href="'+url+'" target="_blank" rel="noopener noreferrer" style="color:#174a7e;font-size:14px;font-weight:bold;text-decoration:none;">🔗 관련 링크</a></div>':'';
+            var popupContent =
+                '<div style="font-family:\'맑은 고딕\',sans-serif;width:260px;max-width:calc(100vw - 110px);box-sizing:border-box;">' +
+                    photoHtml +
+                    '<div style="font-size:17px;font-weight:bold;color:#555;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid #ddd;">'+safeText(feature.properties['NAME'])+'</div>' +
+                    '<div style="font-size:14px;line-height:1.65;color:#222;overflow-wrap:anywhere;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div>' +
+                    urlHtml +
+                '</div>';
+            layer.bindPopup(popupContent,{maxHeight:420,maxWidth:320,minWidth:220,keepInView:true,autoPan:true});
+        }
+
+        function style__C03__4_0() {
+            return {
+                pane: 'pane__C03__4',
+                shape: 'diamond',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(60,60,60,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(90,90,90,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane__C03__4');
+        map.getPane('pane__C03__4').style.zIndex = 404;
+        map.getPane('pane__C03__4').style['mix-blend-mode'] = 'normal';
+        var layer__C03__4 = new L.geoJson(json__C03__4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json__C03__4',
+            layerName: 'layer__C03__4',
+            pane: 'pane__C03__4',
+            onEachFeature: pop__C03__4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style__C03__4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer__C03__4);
+        map.addLayer(layer__C03__4);
+        function pop__C03_Master_C03__5(feature, layer) {
+            var url=safeUrl(feature.properties['URL']);
+            var photo=photoSrc(feature.properties['PHOTO']);
+            var photoHtml=photo?'<div style="margin-bottom:10px;"><img src="'+photo+'" style="width:100%;height:170px;object-fit:cover;border-radius:8px;display:block;" onerror="this.style.display=\'none\'"></div>':'';
+            var nextPoi=safeText(feature.properties['NEXT_POI']).trim(), nextDist=safeText(feature.properties['NEXT_DIST']).trim(), nextTime=safeText(feature.properties['NEXT_TIME']).trim(), nextGuide=safeText(feature.properties['NEXT_GUIDE']).trim();
+            var nextHtml='';
+            var poiName=(safeText(feature.properties['WEB_LABEL'])||safeText(feature.properties['NAME'])).trim();
+            if(nextPoi==='코스 종료' || poiName.indexOf('청계광장')!==-1) {
+                nextHtml='<div class="finish-box">🏁 종로구 제3코스 종료</div>';
+            }
+            else if(nextPoi){var meta=[nextDist?(nextDist+' km'):'',nextTime?(nextTime+'분'):''].filter(Boolean).join(' · '); nextHtml='<div class="next-box"><div class="next-title">🚶 다음 명소 → '+nextPoi+'</div>'+(meta?'<div class="next-meta">'+meta+'</div>':'')+(nextGuide?'<div class="next-guide">'+nextGuide+'</div>':'')+'</div>';}
+            var urlHtml=url?'<div style="margin-top:12px;padding-top:10px;border-top:1px solid #e2e2e2;"><a href="'+url+'" target="_blank" style="color:#174a7e;font-weight:bold;text-decoration:none;">🔗 공식 홈페이지</a></div>':'';
+            var popupContent='<div style="font-family:맑은 고딕,sans-serif;width:260px;max-width:calc(100vw - 120px);box-sizing:border-box;">'+photoHtml+'<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">'+(safeText(feature.properties['WEB_LABEL'])||safeText(feature.properties['NAME']))+'</div><div style="font-size:14px;line-height:1.7;color:#222;overflow-wrap:anywhere;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div>'+urlHtml+nextHtml+'</div>';
+            layer.bindPopup(popupContent,{maxHeight:460,maxWidth:340,minWidth:240,keepInView:true,autoPan:true});
+        }
+
+        function style__C03_Master_C03__5_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp__C03_Master_C03__5rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane__C03_Master_C03__5',
+                radius: 6.6,
+                opacity: 1,
+                color: 'rgba(34,139,34,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 3.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp__C03_Master_C03__5rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane__C03_Master_C03__5',
+                radius: 9.0,
+                opacity: 1,
+                color: 'rgba(34,102,68,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,80,1.0)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane__C03_Master_C03__5');
+        map.getPane('pane__C03_Master_C03__5').style.zIndex = 405;
+        map.getPane('pane__C03_Master_C03__5').style['mix-blend-mode'] = 'normal';
+        var layer__C03_Master_C03__5 = new L.geoJson(json__C03_Master_C03__5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json__C03_Master_C03__5',
+            layerName: 'layer__C03_Master_C03__5',
+            pane: 'pane__C03_Master_C03__5',
+            onEachFeature: pop__C03_Master_C03__5,
+            pointToLayer: function (feature, latlng) {
+                var poiType=String(feature.properties['POI_TYPE']||'').toUpperCase();
+                if(poiType==='RECOMMEND'){
+                    return L.marker(latlng,{icon:L.divIcon({
+                        className:'recommend-star-icon',
+                        html:'<span class="star" style="display:block;width:22px;height:22px;line-height:22px;text-align:center;font-size:22px;color:#fff34d;-webkit-text-stroke:2px #228b22;text-shadow:-1px -1px 0 #228b22,1px -1px 0 #228b22,-1px 1px 0 #228b22,1px 1px 0 #228b22;">★</span>',
+                        iconSize:[22,22],iconAnchor:[11,11],popupAnchor:[0,-11]
+                    })});
+                }
+                return L.circleMarker(latlng,{
+                    pane:'pane__C03_Master_C03__5',
+                    radius:6.6,opacity:1,color:'rgba(34,139,34,1.0)',
+                    weight:3,fill:true,fillOpacity:1,
+                    fillColor:'rgba(255,255,255,1.0)',interactive:true
+                });
+            },
+        });
+        bounds_group.addLayer(layer__C03_Master_C03__5);
+        map.addLayer(layer__C03_Master_C03__5);
+        setBounds();
+        var i = 0;
+        layer___1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['종로구_QGIS_JOIN_87_UTF8_EMD_NAME'] !== null?String('<div style="color: #69466e; font-size: 7pt; font-weight: bold; font-family: \'맑은 고딕\', sans-serif;">' + layer.feature.properties['종로구_QGIS_JOIN_87_UTF8_EMD_NAME']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css___1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer__C03__4.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['NAME'] !== null?String('<div style="color: #464646; font-size: 8pt; font-weight: bold; font-family: \'맑은 고딕\', sans-serif;">' + layer.feature.properties['NAME']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css__C03__4'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var i = 0;
+        layer__C03_Master_C03__5.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['WEB_LABEL'] !== null?String('<div style="color: #0046a0; font-size: 9pt; font-weight: bold; font-family: \'맑은 고딕\', sans-serif;">' + layer.feature.properties['WEB_LABEL']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css__C03_Master_C03__5'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer___1,layer__C03__4,layer__C03_Master_C03__5]);
+        map.on("zoomend", function(){
+            resetLabels([layer___1,layer__C03__4,layer__C03_Master_C03__5]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer___1,layer__C03__4,layer__C03_Master_C03__5]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer___1,layer__C03__4,layer__C03_Master_C03__5]);
+        });
+        </script>
+    
+<script>
+(function(){
+    var overlay=document.getElementById('introOverlay');
+    var closeBtn=document.getElementById('introClose');
+    var confirmBtn=document.getElementById('introConfirm');
+    var dontShow=document.getElementById('introDontShow');
+    var storageKey='wanjaeCourse03IntroHiddenDate';
+    var todayKey=new Date().toISOString().slice(0,10);
+    try{if(localStorage.getItem(storageKey)===todayKey)overlay.classList.add('is-hidden');}catch(e){}
+    function closeIntro(){
+        if(dontShow.checked){try{localStorage.setItem(storageKey,todayKey);}catch(e){}}
+        overlay.classList.add('is-hidden');
+    }
+    closeBtn.addEventListener('click',closeIntro);
+    confirmBtn.addEventListener('click',closeIntro);
+    overlay.addEventListener('click',function(e){if(e.target===overlay)closeIntro();});
+})();
+</script>
+
+
+<script>
+/* ===== GPS FINAL TEST: 15% smaller + zoom linked + brighter direction light + pulse ===== */
+(function(){
+    var btn = document.getElementById('gpsTestBtn');
+    var status = document.getElementById('gpsStatus');
+    var watchId = null;
+    var marker = null;
+    var accuracyCircle = null;
+    var firstFix = true;
+    var lastPosition = null;
+
+    function showStatus(msg, ms){
+        status.textContent = msg;
+        status.classList.add('show');
+        clearTimeout(showStatus._t);
+        showStatus._t = setTimeout(function(){status.classList.remove('show');}, ms || 2200);
+    }
+
+    function markerHtml(){
+        return '' +
+        '<div class="gps-person-wrap" id="gpsPersonWrap">' +
+        '<div class="gps-direction-light" aria-hidden="true"></div>' +
+        '<svg class="gps-person-static gps-person-pulse" viewBox="0 0 64 64" aria-hidden="true">' +
+          '<circle cx="32" cy="32" r="17" fill="rgba(230,242,255,.78)" stroke="#003A8C" stroke-width="1.8"/>' +
+          /* simplified top-down person: head in front, shoulders/body behind */
+          '<circle cx="32" cy="25" r="4.5" fill="#003A8C" stroke="#FFFFFF" stroke-width="1.4"/>' +
+          '<path d="M24.5 37.5 C25.6 31.7 28.1 29.3 32 29.3 C35.9 29.3 38.4 31.7 39.5 37.5 C37.1 40.2 26.9 40.2 24.5 37.5 Z" fill="#003A8C" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/>' +
+        '</svg></div>';
+    }
+
+    var gpsIcon = L.divIcon({
+        className:'gps-person-marker',
+        html:markerHtml(),
+        iconSize:[64,64],
+        iconAnchor:[32,32]
+    });
+
+
+    // 방향 빛은 GPS 위치 추적과 완전히 독립적으로 작동합니다.
+    // 방향센서가 없거나 권한이 없더라도 GPS 현재위치에는 영향이 없습니다.
+    var lightHeading = null;
+    var lightDisplayed = null;
+    var LIGHT_DEADBAND = 8;      // 작은 흔들림 무시
+    var LIGHT_SMOOTHING = 0.12;  // 낮을수록 안정적
+
+    function normalizeLightAngle(a){
+        return (a % 360 + 360) % 360;
+    }
+
+    function lightAngleDelta(fromDeg, toDeg){
+        var d = normalizeLightAngle(toDeg) - normalizeLightAngle(fromDeg);
+        if(d > 180) d -= 360;
+        if(d < -180) d += 360;
+        return d;
+    }
+
+    function applyDirectionLight(){
+        if(lightDisplayed === null || !marker) return;
+        var el = marker.getElement();
+        if(!el) return;
+        var light = el.querySelector('.gps-direction-light');
+        if(light) light.style.transform = 'rotate(' + lightDisplayed + 'deg)';
+    }
+
+    function setDirectionLight(rawHeading){
+        if(typeof rawHeading !== 'number' || !isFinite(rawHeading)) return;
+        rawHeading = normalizeLightAngle(rawHeading);
+
+        if(lightHeading === null){
+            lightHeading = rawHeading;
+            lightDisplayed = rawHeading;
+            applyDirectionLight();
+            return;
+        }
+
+        var rawDelta = lightAngleDelta(lightHeading, rawHeading);
+        lightHeading = normalizeLightAngle(
+            lightHeading + rawDelta * LIGHT_SMOOTHING
+        );
+
+        var displayDelta = lightAngleDelta(lightDisplayed, lightHeading);
+        if(Math.abs(displayDelta) < LIGHT_DEADBAND) return;
+
+        lightDisplayed = normalizeLightAngle(lightDisplayed + displayDelta);
+        applyDirectionLight();
+    }
+
+    function directionLightOrientation(e){
+        var h = null;
+        if(typeof e.webkitCompassHeading === 'number'){
+            h = e.webkitCompassHeading;
+        }else if(e.absolute === true && typeof e.alpha === 'number'){
+            h = 360 - e.alpha;
+        }else if(typeof e.alpha === 'number'){
+            h = 360 - e.alpha;
+        }
+        if(h !== null) setDirectionLight(h);
+    }
+
+    // Android/Chrome 등 권한 요청이 필요 없는 환경에서는 즉시 수신합니다.
+    // 권한이 필요한 브라우저에서는 빛만 표시되지 않을 수 있으며 GPS는 그대로 작동합니다.
+    try{
+        window.addEventListener('deviceorientationabsolute', directionLightOrientation, true);
+        window.addEventListener('deviceorientation', directionLightOrientation, true);
+    }catch(e){}
+
+    function applyZoomSize(){
+        if(!marker) return;
+        var el = marker.getElement();
+        if(!el) return;
+        var wrap = el.querySelector('.gps-person-wrap');
+        if(!wrap) return;
+
+        var z = map.getZoom();
+        var scale = 1.0;
+
+        // 지도를 넓게 볼수록 아이콘을 작게 표시
+        if(z <= 15) scale = 0.425;
+        else if(z === 16) scale = 0.493;
+        else if(z === 17) scale = 0.570;
+        else scale = 0.680;  // z18 이상
+
+        wrap.style.transform = 'scale(' + scale + ')';
+    }
+
+    function updatePosition(pos){
+        var lat = pos.coords.latitude;
+        var lng = pos.coords.longitude;
+        var acc = Math.max(3, pos.coords.accuracy || 0);
+        lastPosition = L.latLng(lat,lng);
+
+        if(!marker){
+            marker = L.marker(lastPosition,{icon:gpsIcon,zIndexOffset:2000,interactive:false}).addTo(map);
+        }else{
+            marker.setLatLng(lastPosition);
+        }
+        applyZoomSize();
+        applyDirectionLight();
+
+        if(!accuracyCircle){
+            accuracyCircle = L.circle(lastPosition,{
+                radius:acc,
+                color:'#3399FF',
+                weight:1,
+                opacity:.45,
+                fillColor:'#3399FF',
+                fillOpacity:.08,
+                interactive:false
+            }).addTo(map);
+        }else{
+            accuracyCircle.setLatLng(lastPosition);
+            accuracyCircle.setRadius(acc);
+        }
+
+        if(firstFix){
+            firstFix = false;
+            map.setView(lastPosition, Math.max(map.getZoom(), 18));
+            showStatus('현재 위치 표시 시작');
+        }
+    }
+
+    function geoError(err){
+        var msg = '현재 위치를 가져올 수 없습니다.';
+        if(err && err.code === 1) msg = '위치 권한을 허용해 주세요.';
+        else if(err && err.code === 2) msg = 'GPS 위치를 확인할 수 없습니다.';
+        else if(err && err.code === 3) msg = 'GPS 응답 시간이 초과되었습니다.';
+        showStatus(msg, 3200);
+        btn.classList.remove('is-active');
+    }
+
+    async function startGps(){
+        if(!navigator.geolocation){
+            showStatus('이 브라우저는 위치 기능을 지원하지 않습니다.');
+            return;
+        }
+        if(watchId === null){
+            firstFix = true;
+            watchId = navigator.geolocation.watchPosition(
+                updatePosition, geoError,
+                {enableHighAccuracy:true, maximumAge:1000, timeout:12000}
+            );
+            btn.classList.add('is-active');
+            showStatus('GPS 현재 위치를 확인하는 중…');
+        }else if(lastPosition){
+            map.setView(lastPosition, Math.max(map.getZoom(),18));
+            showStatus('현재 위치로 이동');
+        }
+    }
+
+    map.on('zoomend', applyZoomSize);
+    btn.addEventListener('click', startGps);
+})();
+</script>
+
+</body>
+</html>
