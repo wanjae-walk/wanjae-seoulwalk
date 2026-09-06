@@ -58,6 +58,102 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
 .intro-check{display:flex;align-items:center;gap:6px;color:#666;font-size:13px;text-align:left}
 .intro-confirm{min-width:88px;padding:10px 18px;border:0;border-radius:8px;background:#174a7e;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
 @media(max-width:480px){.intro-card{padding:26px 18px 18px}.intro-title{font-size:22px}.intro-text{font-size:14px;line-height:1.75}.map-nav{width:170px;right:12px;top:12px}}
+
+
+/* ===== GPS FINAL TEST: fixed person + zoom + brighter direction light + pulse ===== */
+.gps-test-control{
+    position:fixed;right:18px;bottom:24px;z-index:10020;
+    width:56px;height:56px;border:0;border-radius:50%;
+    background:#1f1f1f;color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.30);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.gps-test-control svg{width:31px;height:31px;display:block}
+.gps-test-control.is-active{background:#174a7e}
+.gps-test-control:focus{outline:3px solid rgba(0,102,255,.35);outline-offset:2px}
+
+.gps-person-marker{
+    background:transparent!important;border:0!important;
+}
+.gps-person-wrap{
+    position:relative;width:64px;height:64px;
+    transform-origin:32px 32px;
+    transition:transform .20s ease-out;
+    will-change:transform;
+}
+.gps-person-wrap svg{
+    width:64px;height:64px;display:block;
+    filter:drop-shadow(0 1px 2px rgba(0,0,0,.28));
+}
+.gps-status{
+    position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+    z-index:10019;padding:7px 11px;border-radius:16px;
+    background:rgba(0,0,0,.72);color:#fff;
+    font-family:"Noto Sans KR","맑은 고딕",sans-serif;
+    font-size:12px;line-height:1.3;white-space:nowrap;
+    pointer-events:none;opacity:0;transition:opacity .2s;
+}
+.gps-status.show{opacity:1}
+@media(max-width:480px){
+    .gps-test-control{right:14px;bottom:22px;width:54px;height:54px}
+}
+
+
+
+/* ===== GPS FINAL TEST: static person + soft 44° direction light ===== */
+.gps-person-wrap{
+    overflow:visible !important;
+}
+.gps-person-static{
+    position:relative;
+    z-index:2;
+}
+.gps-direction-light{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:92px;
+    height:96px;
+    margin-left:-46px;
+    margin-top:-88px;
+    transform-origin:46px 88px;
+    pointer-events:none;
+    z-index:1;
+    opacity:.90;
+    clip-path:polygon(50% 92%, 18% 0%, 82% 0%);
+    background:linear-gradient(
+        to top,
+        rgba(45,145,255,.42) 0%,
+        rgba(45,145,255,.28) 42%,
+        rgba(45,145,255,.11) 78%,
+        rgba(65,155,255,0) 100%
+    );
+    filter:blur(.7px);
+    transition:transform .46s ease-out;
+}
+@media (prefers-reduced-motion: reduce){
+    .gps-direction-light{transition:none}
+}
+
+
+/* ===== GPS FINAL: subtle person pulse (independent from GPS and direction light) ===== */
+.gps-person-pulse{
+    transform-box:fill-box;
+    transform-origin:center;
+    animation:gpsFinalPersonPulse 1.9s ease-in-out infinite;
+}
+@keyframes gpsFinalPersonPulse{
+    0%,100%{
+        transform:scale(1);
+        filter:brightness(.92);
+    }
+    50%{
+        transform:scale(1.06);
+        filter:brightness(1.20);
+    }
+}
+@media (prefers-reduced-motion: reduce){
+    .gps-person-pulse{animation:none}
+}
 </style>
         <title>완재의 서울걷기 | 종로구 제4코스</title>
     </head>
@@ -71,6 +167,15 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
 
         <div id="map">
         </div>
+
+<button id="gpsTestBtn" class="gps-test-control" type="button" aria-label="현재 위치 표시" title="현재 위치">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="8.5" fill="none" stroke="#58b9ff" stroke-width="2.3"/>
+        <circle cx="16" cy="16" r="3.7" fill="#58b9ff"/>
+        <path d="M16 2.5v4.2M16 25.3v4.2M2.5 16h4.2M25.3 16h4.2" stroke="#58b9ff" stroke-width="2.3" stroke-linecap="round"/>
+    </svg>
+</button>
+<div id="gpsStatus" class="gps-status" role="status" aria-live="polite"></div>
 
         <div id="introOverlay" class="intro-overlay" role="dialog" aria-modal="true" aria-labelledby="introTitle">
             <div class="intro-card">
@@ -689,6 +794,201 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
     closeBtn.addEventListener('click',closeIntro);
     confirmBtn.addEventListener('click',closeIntro);
     overlay.addEventListener('click',function(e){if(e.target===overlay)closeIntro();});
+})();
+</script>
+
+
+<script>
+/* ===== GPS FINAL TEST: 15% smaller + zoom linked + brighter direction light + pulse ===== */
+(function(){
+    var btn = document.getElementById('gpsTestBtn');
+    var status = document.getElementById('gpsStatus');
+    var watchId = null;
+    var marker = null;
+    var accuracyCircle = null;
+    var firstFix = true;
+    var lastPosition = null;
+
+    function showStatus(msg, ms){
+        status.textContent = msg;
+        status.classList.add('show');
+        clearTimeout(showStatus._t);
+        showStatus._t = setTimeout(function(){status.classList.remove('show');}, ms || 2200);
+    }
+
+    function markerHtml(){
+        return '' +
+        '<div class="gps-person-wrap" id="gpsPersonWrap">' +
+        '<div class="gps-direction-light" aria-hidden="true"></div>' +
+        '<svg class="gps-person-static gps-person-pulse" viewBox="0 0 64 64" aria-hidden="true">' +
+          '<circle cx="32" cy="32" r="17" fill="rgba(230,242,255,.78)" stroke="#003A8C" stroke-width="1.8"/>' +
+          /* simplified top-down person: head in front, shoulders/body behind */
+          '<circle cx="32" cy="25" r="4.5" fill="#003A8C" stroke="#FFFFFF" stroke-width="1.4"/>' +
+          '<path d="M24.5 37.5 C25.6 31.7 28.1 29.3 32 29.3 C35.9 29.3 38.4 31.7 39.5 37.5 C37.1 40.2 26.9 40.2 24.5 37.5 Z" fill="#003A8C" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/>' +
+        '</svg></div>';
+    }
+
+    var gpsIcon = L.divIcon({
+        className:'gps-person-marker',
+        html:markerHtml(),
+        iconSize:[64,64],
+        iconAnchor:[32,32]
+    });
+
+
+    // 방향 빛은 GPS 위치 추적과 완전히 독립적으로 작동합니다.
+    // 방향센서가 없거나 권한이 없더라도 GPS 현재위치에는 영향이 없습니다.
+    var lightHeading = null;
+    var lightDisplayed = null;
+    var LIGHT_DEADBAND = 8;      // 작은 흔들림 무시
+    var LIGHT_SMOOTHING = 0.12;  // 낮을수록 안정적
+
+    function normalizeLightAngle(a){
+        return (a % 360 + 360) % 360;
+    }
+
+    function lightAngleDelta(fromDeg, toDeg){
+        var d = normalizeLightAngle(toDeg) - normalizeLightAngle(fromDeg);
+        if(d > 180) d -= 360;
+        if(d < -180) d += 360;
+        return d;
+    }
+
+    function applyDirectionLight(){
+        if(lightDisplayed === null || !marker) return;
+        var el = marker.getElement();
+        if(!el) return;
+        var light = el.querySelector('.gps-direction-light');
+        if(light) light.style.transform = 'rotate(' + lightDisplayed + 'deg)';
+    }
+
+    function setDirectionLight(rawHeading){
+        if(typeof rawHeading !== 'number' || !isFinite(rawHeading)) return;
+        rawHeading = normalizeLightAngle(rawHeading);
+
+        if(lightHeading === null){
+            lightHeading = rawHeading;
+            lightDisplayed = rawHeading;
+            applyDirectionLight();
+            return;
+        }
+
+        var rawDelta = lightAngleDelta(lightHeading, rawHeading);
+        lightHeading = normalizeLightAngle(
+            lightHeading + rawDelta * LIGHT_SMOOTHING
+        );
+
+        var displayDelta = lightAngleDelta(lightDisplayed, lightHeading);
+        if(Math.abs(displayDelta) < LIGHT_DEADBAND) return;
+
+        lightDisplayed = normalizeLightAngle(lightDisplayed + displayDelta);
+        applyDirectionLight();
+    }
+
+    function directionLightOrientation(e){
+        var h = null;
+        if(typeof e.webkitCompassHeading === 'number'){
+            h = e.webkitCompassHeading;
+        }else if(e.absolute === true && typeof e.alpha === 'number'){
+            h = 360 - e.alpha;
+        }else if(typeof e.alpha === 'number'){
+            h = 360 - e.alpha;
+        }
+        if(h !== null) setDirectionLight(h);
+    }
+
+    // Android/Chrome 등 권한 요청이 필요 없는 환경에서는 즉시 수신합니다.
+    // 권한이 필요한 브라우저에서는 빛만 표시되지 않을 수 있으며 GPS는 그대로 작동합니다.
+    try{
+        window.addEventListener('deviceorientationabsolute', directionLightOrientation, true);
+        window.addEventListener('deviceorientation', directionLightOrientation, true);
+    }catch(e){}
+
+    function applyZoomSize(){
+        if(!marker) return;
+        var el = marker.getElement();
+        if(!el) return;
+        var wrap = el.querySelector('.gps-person-wrap');
+        if(!wrap) return;
+
+        var z = map.getZoom();
+        var scale = 1.0;
+
+        // 지도를 넓게 볼수록 아이콘을 작게 표시
+        if(z <= 15) scale = 0.425;
+        else if(z === 16) scale = 0.493;
+        else if(z === 17) scale = 0.570;
+        else scale = 0.680;  // z18 이상
+
+        wrap.style.transform = 'scale(' + scale + ')';
+    }
+
+    function updatePosition(pos){
+        var lat = pos.coords.latitude;
+        var lng = pos.coords.longitude;
+        var acc = Math.max(3, pos.coords.accuracy || 0);
+        lastPosition = L.latLng(lat,lng);
+
+        if(!marker){
+            marker = L.marker(lastPosition,{icon:gpsIcon,zIndexOffset:2000,interactive:false}).addTo(map);
+        }else{
+            marker.setLatLng(lastPosition);
+        }
+        applyZoomSize();
+        applyDirectionLight();
+
+        if(!accuracyCircle){
+            accuracyCircle = L.circle(lastPosition,{
+                radius:acc,
+                color:'#3399FF',
+                weight:1,
+                opacity:.45,
+                fillColor:'#3399FF',
+                fillOpacity:.08,
+                interactive:false
+            }).addTo(map);
+        }else{
+            accuracyCircle.setLatLng(lastPosition);
+            accuracyCircle.setRadius(acc);
+        }
+
+        if(firstFix){
+            firstFix = false;
+            map.setView(lastPosition, Math.max(map.getZoom(), 18));
+            showStatus('현재 위치 표시 시작');
+        }
+    }
+
+    function geoError(err){
+        var msg = '현재 위치를 가져올 수 없습니다.';
+        if(err && err.code === 1) msg = '위치 권한을 허용해 주세요.';
+        else if(err && err.code === 2) msg = 'GPS 위치를 확인할 수 없습니다.';
+        else if(err && err.code === 3) msg = 'GPS 응답 시간이 초과되었습니다.';
+        showStatus(msg, 3200);
+        btn.classList.remove('is-active');
+    }
+
+    async function startGps(){
+        if(!navigator.geolocation){
+            showStatus('이 브라우저는 위치 기능을 지원하지 않습니다.');
+            return;
+        }
+        if(watchId === null){
+            firstFix = true;
+            watchId = navigator.geolocation.watchPosition(
+                updatePosition, geoError,
+                {enableHighAccuracy:true, maximumAge:1000, timeout:12000}
+            );
+            btn.classList.add('is-active');
+            showStatus('GPS 현재 위치를 확인하는 중…');
+        }else if(lastPosition){
+            map.setView(lastPosition, Math.max(map.getZoom(),18));
+            showStatus('현재 위치로 이동');
+        }
+    }
+
+    map.on('zoomend', applyZoomSize);
+    btn.addEventListener('click', startGps);
 })();
 </script>
 
