@@ -740,5 +740,200 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
 })();
 </script>
 
+
+<script>
+/* ===== GPS FINAL TEST: 15% smaller + zoom linked + brighter direction light + pulse ===== */
+(function(){
+    var btn = document.getElementById('gpsTestBtn');
+    var status = document.getElementById('gpsStatus');
+    var watchId = null;
+    var marker = null;
+    var accuracyCircle = null;
+    var firstFix = true;
+    var lastPosition = null;
+
+    function showStatus(msg, ms){
+        status.textContent = msg;
+        status.classList.add('show');
+        clearTimeout(showStatus._t);
+        showStatus._t = setTimeout(function(){status.classList.remove('show');}, ms || 2200);
+    }
+
+    function markerHtml(){
+        return '' +
+        '<div class="gps-person-wrap" id="gpsPersonWrap">' +
+        '<div class="gps-direction-light" aria-hidden="true"></div>' +
+        '<svg class="gps-person-static gps-person-pulse" viewBox="0 0 64 64" aria-hidden="true">' +
+          '<circle cx="32" cy="32" r="17" fill="rgba(230,242,255,.78)" stroke="#003A8C" stroke-width="1.8"/>' +
+          /* simplified top-down person: head in front, shoulders/body behind */
+          '<circle cx="32" cy="25" r="4.5" fill="#003A8C" stroke="#FFFFFF" stroke-width="1.4"/>' +
+          '<path d="M24.5 37.5 C25.6 31.7 28.1 29.3 32 29.3 C35.9 29.3 38.4 31.7 39.5 37.5 C37.1 40.2 26.9 40.2 24.5 37.5 Z" fill="#003A8C" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/>' +
+        '</svg></div>';
+    }
+
+    var gpsIcon = L.divIcon({
+        className:'gps-person-marker',
+        html:markerHtml(),
+        iconSize:[64,64],
+        iconAnchor:[32,32]
+    });
+
+
+    // 방향 빛은 GPS 위치 추적과 완전히 독립적으로 작동합니다.
+    // 방향센서가 없거나 권한이 없더라도 GPS 현재위치에는 영향이 없습니다.
+    var lightHeading = null;
+    var lightDisplayed = null;
+    var LIGHT_DEADBAND = 8;      // 작은 흔들림 무시
+    var LIGHT_SMOOTHING = 0.12;  // 낮을수록 안정적
+
+    function normalizeLightAngle(a){
+        return (a % 360 + 360) % 360;
+    }
+
+    function lightAngleDelta(fromDeg, toDeg){
+        var d = normalizeLightAngle(toDeg) - normalizeLightAngle(fromDeg);
+        if(d > 180) d -= 360;
+        if(d < -180) d += 360;
+        return d;
+    }
+
+    function applyDirectionLight(){
+        if(lightDisplayed === null || !marker) return;
+        var el = marker.getElement();
+        if(!el) return;
+        var light = el.querySelector('.gps-direction-light');
+        if(light) light.style.transform = 'rotate(' + lightDisplayed + 'deg)';
+    }
+
+    function setDirectionLight(rawHeading){
+        if(typeof rawHeading !== 'number' || !isFinite(rawHeading)) return;
+        rawHeading = normalizeLightAngle(rawHeading);
+
+        if(lightHeading === null){
+            lightHeading = rawHeading;
+            lightDisplayed = rawHeading;
+            applyDirectionLight();
+            return;
+        }
+
+        var rawDelta = lightAngleDelta(lightHeading, rawHeading);
+        lightHeading = normalizeLightAngle(
+            lightHeading + rawDelta * LIGHT_SMOOTHING
+        );
+
+        var displayDelta = lightAngleDelta(lightDisplayed, lightHeading);
+        if(Math.abs(displayDelta) < LIGHT_DEADBAND) return;
+
+        lightDisplayed = normalizeLightAngle(lightDisplayed + displayDelta);
+        applyDirectionLight();
+    }
+
+    function directionLightOrientation(e){
+        var h = null;
+        if(typeof e.webkitCompassHeading === 'number'){
+            h = e.webkitCompassHeading;
+        }else if(e.absolute === true && typeof e.alpha === 'number'){
+            h = 360 - e.alpha;
+        }else if(typeof e.alpha === 'number'){
+            h = 360 - e.alpha;
+        }
+        if(h !== null) setDirectionLight(h);
+    }
+
+    // Android/Chrome 등 권한 요청이 필요 없는 환경에서는 즉시 수신합니다.
+    // 권한이 필요한 브라우저에서는 빛만 표시되지 않을 수 있으며 GPS는 그대로 작동합니다.
+    try{
+        window.addEventListener('deviceorientationabsolute', directionLightOrientation, true);
+        window.addEventListener('deviceorientation', directionLightOrientation, true);
+    }catch(e){}
+
+    function applyZoomSize(){
+        if(!marker) return;
+        var el = marker.getElement();
+        if(!el) return;
+        var wrap = el.querySelector('.gps-person-wrap');
+        if(!wrap) return;
+
+        var z = map.getZoom();
+        var scale = 1.0;
+
+        // 지도를 넓게 볼수록 아이콘을 작게 표시
+        if(z <= 15) scale = 0.425;
+        else if(z === 16) scale = 0.493;
+        else if(z === 17) scale = 0.570;
+        else scale = 0.680;  // z18 이상
+
+        wrap.style.transform = 'scale(' + scale + ')';
+    }
+
+    function updatePosition(pos){
+        var lat = pos.coords.latitude;
+        var lng = pos.coords.longitude;
+        var acc = Math.max(3, pos.coords.accuracy || 0);
+        lastPosition = L.latLng(lat,lng);
+
+        if(!marker){
+            marker = L.marker(lastPosition,{icon:gpsIcon,zIndexOffset:2000,interactive:false}).addTo(map);
+        }else{
+            marker.setLatLng(lastPosition);
+        }
+        applyZoomSize();
+        applyDirectionLight();
+
+        if(!accuracyCircle){
+            accuracyCircle = L.circle(lastPosition,{
+                radius:acc,
+                color:'#3399FF',
+                weight:1,
+                opacity:.45,
+                fillColor:'#3399FF',
+                fillOpacity:.08,
+                interactive:false
+            }).addTo(map);
+        }else{
+            accuracyCircle.setLatLng(lastPosition);
+            accuracyCircle.setRadius(acc);
+        }
+
+        if(firstFix){
+            firstFix = false;
+            map.setView(lastPosition, Math.max(map.getZoom(), 18));
+            showStatus('현재 위치 표시 시작');
+        }
+    }
+
+    function geoError(err){
+        var msg = '현재 위치를 가져올 수 없습니다.';
+        if(err && err.code === 1) msg = '위치 권한을 허용해 주세요.';
+        else if(err && err.code === 2) msg = 'GPS 위치를 확인할 수 없습니다.';
+        else if(err && err.code === 3) msg = 'GPS 응답 시간이 초과되었습니다.';
+        showStatus(msg, 3200);
+        btn.classList.remove('is-active');
+    }
+
+    async function startGps(){
+        if(!navigator.geolocation){
+            showStatus('이 브라우저는 위치 기능을 지원하지 않습니다.');
+            return;
+        }
+        if(watchId === null){
+            firstFix = true;
+            watchId = navigator.geolocation.watchPosition(
+                updatePosition, geoError,
+                {enableHighAccuracy:true, maximumAge:1000, timeout:12000}
+            );
+            btn.classList.add('is-active');
+            showStatus('GPS 현재 위치를 확인하는 중…');
+        }else if(lastPosition){
+            map.setView(lastPosition, Math.max(map.getZoom(),18));
+            showStatus('현재 위치로 이동');
+        }
+    }
+
+    map.on('zoomend', applyZoomSize);
+    btn.addEventListener('click', startGps);
+})();
+</script>
+
 </body>
 </html>
