@@ -4,20 +4,6 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="완재의 서울걷기 | 종로구 제5코스">
-        <meta property="og:description" content="인왕산 아래, 문학과 자연을 걷다">
-        <meta property="og:image" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course05_cover.png">
-        <meta property="og:image:secure_url" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course05_cover.png">
-        <meta property="og:image:type" content="image/png">
-        <meta property="og:url" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/course05/">
-        <meta property="og:site_name" content="완재의 서울걷기">
-        <meta property="og:locale" content="ko_KR">
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="완재의 서울걷기 | 종로구 제5코스">
-        <meta name="twitter:description" content="인왕산 아래, 문학과 자연을 걷다">
-        <meta name="twitter:image" content="https://wanjae-walk.github.io/wanjae-seoulwalk/jongno/leaflet/jongno_course05_cover.png">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
@@ -26,97 +12,69 @@
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <style>
-        #map { width: 100vw; height: 100vh; }
-        
-        html, body { margin:0; padding:0; width:100%; height:100%; }
-        .leaflet-popup-content-wrapper {
-            border-radius: 16px;
-            box-shadow: 0 4px 18px rgba(0,0,0,.22);
+        #map { width:100vw; height:100vh; }
+        html,body { margin:0; padding:0; width:100%; height:100%; overflow:hidden; }
+
+        /* C04 popup standard */
+        .leaflet-popup-content-wrapper{
+            border-radius:16px;
+            box-shadow:0 4px 18px rgba(0,0,0,.22);
+            box-sizing:border-box;
+            overflow:hidden;
         }
-        .leaflet-popup-content {
-            margin: 0 !important;
-            width: 360px !important;
-            max-width: calc(100vw - 46px) !important;
-            max-height: 72vh;
-            overflow-y: auto;
-            font-family: "맑은 고딕", "Malgun Gothic", sans-serif;
-            font-size: 16px;
-            line-height: 1.65;
-            color: #292929;
+        .leaflet-popup-content{
+            margin:26px 16px 16px!important;
+            width:260px!important;
+            max-width:calc(100vw - 54px)!important;
+            max-height:460px;
+            overflow-x:hidden!important;
+            overflow-y:auto!important;
+            font-family:"맑은 고딕","Malgun Gothic",sans-serif;
+            font-size:14px;
+            line-height:1.6;
+            color:#292929;
+            box-sizing:border-box;
         }
-        .wanjae-popup { padding: 16px 18px 18px; box-sizing:border-box; }
-        .wanjae-popup img {
-            display:block; width:100%; height:170px; object-fit:cover;
-            border-radius: 10px; margin: 0 0 14px;
+        .leaflet-popup-scrolled{
+            overflow-x:hidden!important;
+            overflow-y:auto!important;
+            max-height:460px!important;
         }
-        .wanjae-title {
-            color:#174d83; font-size:21px; font-weight:700; line-height:1.35;
+        .wanjae-popup{padding:0;box-sizing:border-box;}
+        .wanjae-popup img{
+            display:block;width:100%;height:170px;object-fit:cover;
+            border-radius:10px;margin:0 0 14px;
+        }
+        .wanjae-title{
+            color:#174d83;font-size:19px;font-weight:700;line-height:1.35;
             margin:0 0 10px;
         }
-        .wanjae-title.guide { color:#9a5a20; }
-        .wanjae-title.spot { color:#555; }
-        .wanjae-desc { margin:0; }
-        .wanjae-sep { border:0; border-top:1px solid #d7d7d7; margin:12px 0; }
-        .wanjae-next { color:#174d83; font-size:18px; font-weight:700; margin-bottom:2px; }
-        .wanjae-meta { color:#555; font-weight:700; margin-bottom:5px; }
-        .leaflet-popup-close-button { font-size:25px !important; top:7px !important; right:8px !important; }
-        @media (max-width: 600px) {
-            .leaflet-popup-content { width: calc(100vw - 54px) !important; font-size:15px; max-height:68vh; }
-            .wanjae-popup { padding:14px 15px 16px; }
-            .wanjae-popup img { height:145px; }
-            .wanjae-title { font-size:20px; }
+        .wanjae-title.guide{color:#9a5a20;}
+        .wanjae-title.spot{color:#555;}
+        .wanjae-desc{margin:0;}
+        .wanjae-sep{border:0;border-top:1px solid #d7d7d7;margin:12px 0;}
+        .wanjae-next{color:#174d83;font-size:16px;font-weight:700;margin-bottom:2px;}
+        .wanjae-meta{color:#555;font-weight:700;margin-bottom:5px;}
+        .leaflet-popup-close-button{
+            font-size:25px!important;top:7px!important;right:8px!important;
+            z-index:3;
         }
-
-
-        .map-nav{position:fixed;top:12px;right:14px;z-index:9999;width:170px;display:flex;flex-direction:column;overflow:hidden;background:rgba(255,255,255,.96);border:1px solid #174a7e;border-radius:9px;box-shadow:0 2px 8px rgba(0,0,0,.20)}
-        .map-nav a{display:flex;align-items:center;justify-content:center;min-height:38px;padding:7px 6px;box-sizing:border-box;text-align:center;border-bottom:1px solid rgba(23,74,126,.32);color:#174a7e;font-family:"Noto Sans KR","맑은 고딕",sans-serif;font-size:12px;line-height:1.25;font-weight:700;text-decoration:none;white-space:nowrap}
-        .map-nav a:last-child{border-bottom:0}.map-nav a:hover{background:#174a7e;color:#fff}
-        .intro-overlay{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.28);box-sizing:border-box}
-        .intro-overlay.is-hidden{display:none}
-        .intro-card{position:relative;width:min(390px,calc(100vw - 36px));box-sizing:border-box;padding:28px 22px 20px;background:rgba(255,255,255,.98);border-radius:18px;box-shadow:0 8px 28px rgba(0,0,0,.28);font-family:"Noto Sans KR","맑은 고딕",sans-serif;color:#222;text-align:center}
-        .intro-close{position:absolute;top:10px;right:12px;border:0;background:transparent;color:#444;font-size:26px;line-height:1;cursor:pointer}
-        .intro-icon{width:54px;height:54px;margin:0 auto 12px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#174a7e;color:#fff;font-size:30px}
-        .intro-title{margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid #d8d8d8;color:#174a7e;font-size:24px;line-height:1.3;font-weight:800}
-        .intro-text{margin:0;font-size:15px;line-height:1.8;word-break:keep-all}
-        .intro-emphasis{margin:16px 0 0;color:#174a7e;font-size:18px;font-weight:800}
-        .intro-complete-date{margin:10px 0 0;color:#d97706;font-size:14px;font-weight:800}
-        .intro-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px;padding-top:14px;border-top:1px solid #d8d8d8}
-        .intro-check{display:flex;align-items:center;gap:6px;color:#666;font-size:13px;text-align:left}
-        .intro-confirm{min-width:88px;padding:10px 18px;border:0;border-radius:8px;background:#174a7e;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
-        .gps-test-control{position:fixed;right:18px;bottom:24px;z-index:10020;width:56px;height:56px;border:0;border-radius:50%;background:#1f1f1f;color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.30);display:flex;align-items:center;justify-content:center;cursor:pointer}
-        .gps-test-control svg{width:31px;height:31px;display:block}.gps-test-control.is-active{background:#174a7e}
-        .gps-person-marker{background:transparent!important;border:0!important}.gps-person-wrap{position:relative;width:64px;height:64px;overflow:visible!important;transform-origin:32px 32px}.gps-person-static{position:relative;z-index:2}
-        .gps-direction-light{position:absolute;left:50%;top:50%;width:92px;height:96px;margin-left:-46px;margin-top:-88px;transform-origin:46px 88px;pointer-events:none;z-index:1;opacity:.90;clip-path:polygon(50% 92%,18% 0%,82% 0%);background:linear-gradient(to top,rgba(45,145,255,.42) 0%,rgba(45,145,255,.28) 42%,rgba(45,145,255,.11) 78%,rgba(65,155,255,0) 100%);filter:blur(.7px)}
-        .gps-person-pulse{transform-box:fill-box;transform-origin:center;animation:gpsFinalPersonPulse 1.9s ease-in-out infinite}@keyframes gpsFinalPersonPulse{0%,100%{transform:scale(1);filter:brightness(.92)}50%{transform:scale(1.06);filter:brightness(1.20)}}
-        .gps-status{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:10019;padding:7px 11px;border-radius:16px;background:rgba(0,0,0,.72);color:#fff;font-size:12px;pointer-events:none;opacity:0}.gps-status.show{opacity:1}
-
-        </style>
+        .recommend-star-icon{background:transparent!important;border:none!important;}
+        @media(max-width:600px){
+            .leaflet-popup-content{
+                width:260px!important;
+                max-width:calc(100vw - 54px)!important;
+                max-height:68vh!important;
+                font-size:14px;
+            }
+            .wanjae-popup img{height:145px;}
+            .wanjae-title{font-size:18px;}
+        }
+</style>
         <title>완재의 서울걷기 | 종로구 제5코스 - 인왕산 아래, 문학과 자연을 걷다</title>
     </head>
     <body>
-
-        <div class="map-nav">
-            <a href="../index.html">← 종로구 7개 코스</a>
-            <a href="../../index.html">⌂ 서울 25개 자치구</a>
-            <a href="https://cafe.daum.net/earth1985" target="_blank" rel="noopener noreferrer">☕ 완재의 서울걷기 카페</a>
-        </div>
         <div id="map">
-        </div>
-
-        <button id="gpsTestBtn" class="gps-test-control" type="button" aria-label="현재 위치 표시" title="현재 위치">
-            <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="8.5" fill="none" stroke="#58b9ff" stroke-width="2.3"/><circle cx="16" cy="16" r="3.7" fill="#58b9ff"/><path d="M16 2.5v4.2M16 25.3v4.2M2.5 16h4.2M25.3 16h4.2" stroke="#58b9ff" stroke-width="2.3" stroke-linecap="round"/></svg>
-        </button>
-        <div id="gpsStatus" class="gps-status"></div>
-        <div id="introOverlay" class="intro-overlay" role="dialog" aria-modal="true">
-            <div class="intro-card">
-                <button id="introClose" class="intro-close" type="button">×</button>
-                <div class="intro-icon">🚶</div>
-                <h1 class="intro-title">완재의 서울걷기 안내</h1>
-                <p class="intro-text">이 지도는 직접 답사하여 정리한 하나의 추천 경로입니다.<br>길에는 정답이 없으니, 현재의 보행 환경과 안전을 확인한 후 참고용으로 이용해 주세요.<br>표시된 길을 따라 걷다가 자신만의 좋은 골목을 발견해 보셔도 좋습니다.</p>
-                <p class="intro-emphasis">길은 어디로든 통합니다.</p>
-                <p class="intro-complete-date">코스 완성 · 2026. 9. 17.</p>
-                <div class="intro-footer"><label class="intro-check"><input id="introDontShow" type="checkbox">오늘은 다시 보지 않기</label><button id="introConfirm" class="intro-confirm" type="button">확인</button></div>
-            </div>
         </div>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
@@ -144,6 +102,9 @@
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/qgis2web/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        function safeText(v){return(v===null||v===undefined||String(v).toUpperCase()==='NULL')?'':String(v);}
+        function photoSrc(v){if(!v)return '';var x=String(v).replace(/\\/g,'/').trim();return 'images/'+x.split('/').pop();}
+        function safeUrl(v){var x=safeText(v).trim();return /^https?:\/\//i.test(x)?x.replace(/"/g,'&quot;'):'';}
         // remove popup's row if "visible-with-data"
         function removeEmptyRowsFromPopupContent(content, feature) {
          var tempDiv = document.createElement('div');
@@ -242,11 +203,8 @@
                 .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
         }
         function photoHtml(v) {
-            if (!v) return '';
-            var raw = String(v).replace(/\\/g,'/').trim();
-            var p = raw.replace(/^(\.\.\/)+/,'');
-            if (!/^images\//i.test(p)) p = 'images/' + p;
-            return '<img src="' + esc(p) + '" alt="" onerror="this.style.display=\'none\'">';
+            var p = photoSrc(v);
+            return p ? '<img src="' + esc(p) + '" alt="">' : '';
         }
 
         function pop___1(feature, layer) {
@@ -570,18 +528,13 @@
             var title = p.WEB_LABEL || p.NAME || '';
             var nextBlock = '';
             if (p.NEXT_POI) {
-                var guide = p.NEXT_GUIDE || '';
-                var poiTitle = String(title || '');
-                if (poiTitle.indexOf('경복궁역 3번 출구') !== -1) {
-                    guide = '하차 후 윤동주문학관까지 도보 약 1~2분입니다.';
-                }
                 nextBlock =
                     '<hr class="wanjae-sep">' +
                     '<div class="wanjae-next">🚶 다음 명소 → ' + esc(p.NEXT_POI) + '</div>' +
                     ((p.NEXT_DIST || p.NEXT_TIME)
                         ? '<div class="wanjae-meta">' + esc(p.NEXT_DIST || '') +
                           (p.NEXT_DIST && p.NEXT_TIME ? ' · ' : '') + esc(p.NEXT_TIME || '') + '</div>' : '') +
-                    (guide ? '<div class="wanjae-desc">' + esc(guide) + '</div>' : '');
+                    (p.NEXT_GUIDE ? '<div class="wanjae-desc">' + esc(p.NEXT_GUIDE) + '</div>' : '');
             }
             var content = '<div class="wanjae-popup">' +
                 photoHtml(p.PHOTO) +
@@ -643,15 +596,11 @@
             pane: 'pane__C05_Master_C05__6',
             onEachFeature: pop__C05_Master_C05__6,
             pointToLayer: function (feature, latlng) {
-                var poiType=String(feature.properties['POI_TYPE']||'').toUpperCase();
-                if(poiType==='RECOMMEND'){
-                    return L.marker(latlng,{icon:L.divIcon({
-                        className:'recommend-star-icon',
-                        html:'<span style="display:block;width:22px;height:22px;line-height:22px;text-align:center;font-size:22px;color:#fff34d;-webkit-text-stroke:2px #228b22;text-shadow:-1px -1px 0 #228b22,1px -1px 0 #228b22,-1px 1px 0 #228b22,1px 1px 0 #228b22;">★</span>',
-                        iconSize:[22,22],iconAnchor:[11,11],popupAnchor:[0,-11]
-                    })});
-                }
-                return L.circleMarker(latlng, style__C05_Master_C05__6_0(feature));
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style__C05_Master_C05__6_0(feature));
             },
         });
         bounds_group.addLayer(layer__C05_Master_C05__6);
@@ -707,27 +656,5 @@
             resetLabels([layer___1,layer__C05_Master_C05__5,layer__C05_Master_C05__6]);
         });
         </script>
-
-<script>
-(function(){
- var overlay=document.getElementById('introOverlay'), closeBtn=document.getElementById('introClose'),
- confirmBtn=document.getElementById('introConfirm'), dontShow=document.getElementById('introDontShow');
- var key='wanjaeCourse05IntroHiddenDate', today=new Date().toISOString().slice(0,10);
- try{if(localStorage.getItem(key)===today)overlay.classList.add('is-hidden')}catch(e){}
- function closeIntro(){if(dontShow.checked){try{localStorage.setItem(key,today)}catch(e){}} overlay.classList.add('is-hidden')}
- closeBtn.addEventListener('click',closeIntro); confirmBtn.addEventListener('click',closeIntro);
- overlay.addEventListener('click',function(e){if(e.target===overlay)closeIntro()});
-})();
-(function(){
- var btn=document.getElementById('gpsTestBtn'),status=document.getElementById('gpsStatus'),watchId=null,marker=null,lastPosition=null;
- function showStatus(m){status.textContent=m;status.classList.add('show');setTimeout(function(){status.classList.remove('show')},2200)}
- function markerHtml(){return '<div class="gps-person-wrap"><div class="gps-direction-light"></div><svg class="gps-person-static gps-person-pulse" viewBox="0 0 64 64"><circle cx="32" cy="32" r="17" fill="rgba(230,242,255,.78)" stroke="#003A8C" stroke-width="1.8"/><circle cx="32" cy="25" r="4.5" fill="#003A8C" stroke="#FFFFFF" stroke-width="1.4"/><path d="M24.5 37.5 C25.6 31.7 28.1 29.3 32 29.3 C35.9 29.3 38.4 31.7 39.5 37.5 C37.1 40.2 26.9 40.2 24.5 37.5 Z" fill="#003A8C" stroke="#FFFFFF" stroke-width="1.4"/></svg></div>'}
- var icon=L.divIcon({className:'gps-person-marker',html:markerHtml(),iconSize:[64,64],iconAnchor:[32,32]});
- function pos(p){lastPosition=L.latLng(p.coords.latitude,p.coords.longitude);if(!marker)marker=L.marker(lastPosition,{icon:icon,zIndexOffset:2000,interactive:false}).addTo(map);else marker.setLatLng(lastPosition);map.setView(lastPosition,Math.max(map.getZoom(),18));showStatus('현재 위치 표시')}
- function err(){showStatus('현재 위치를 가져올 수 없습니다.');btn.classList.remove('is-active')}
- btn.addEventListener('click',function(){if(!navigator.geolocation){showStatus('위치 기능을 지원하지 않습니다.');return}if(watchId===null){watchId=navigator.geolocation.watchPosition(pos,err,{enableHighAccuracy:true,maximumAge:1000,timeout:12000});btn.classList.add('is-active');showStatus('GPS 현재 위치를 확인하는 중…')}else if(lastPosition)map.setView(lastPosition,Math.max(map.getZoom(),18))});
-})();
-</script>
-
     </body>
 </html>
