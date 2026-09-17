@@ -599,7 +599,9 @@
                     ((p.NEXT_DIST || p.NEXT_TIME)
                         ? '<div class="wanjae-meta">' + esc(p.NEXT_DIST || '') +
                           (p.NEXT_DIST && p.NEXT_TIME ? ' · ' : '') + esc(p.NEXT_TIME || '') + '</div>' : '') +
-                    (p.NEXT_GUIDE ? '<div class="wanjae-desc">' + esc(p.NEXT_GUIDE) + '</div>' : '');
+                    ((p.POI_NO == 1)
+                        ? '<div class="wanjae-desc">하차 후 윤동주문학관까지 도보 약 1~2분입니다.</div>'
+                        : (p.NEXT_GUIDE ? '<div class="wanjae-desc">' + esc(p.NEXT_GUIDE) + '</div>' : ''));
             }
             var content = '<div class="wanjae-popup">' +
                 photoHtml(p.PHOTO) +
