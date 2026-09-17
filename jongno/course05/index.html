@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,12 +12,49 @@
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet.photon.css">
         <style>
-        #map {
-            width: 1064px;
-            height: 684px;
+        #map { width: 100vw; height: 100vh; }
+        
+        html, body { margin:0; padding:0; width:100%; height:100%; }
+        .leaflet-popup-content-wrapper {
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(0,0,0,.22);
         }
+        .leaflet-popup-content {
+            margin: 0 !important;
+            width: 360px !important;
+            max-width: calc(100vw - 46px) !important;
+            max-height: 72vh;
+            overflow-y: auto;
+            font-family: "맑은 고딕", "Malgun Gothic", sans-serif;
+            font-size: 16px;
+            line-height: 1.65;
+            color: #292929;
+        }
+        .wanjae-popup { padding: 16px 18px 18px; box-sizing:border-box; }
+        .wanjae-popup img {
+            display:block; width:100%; height:170px; object-fit:cover;
+            border-radius: 10px; margin: 0 0 14px;
+        }
+        .wanjae-title {
+            color:#174d83; font-size:21px; font-weight:700; line-height:1.35;
+            margin:0 0 10px;
+        }
+        .wanjae-title.guide { color:#9a5a20; }
+        .wanjae-title.spot { color:#555; }
+        .wanjae-desc { margin:0; }
+        .wanjae-sep { border:0; border-top:1px solid #d7d7d7; margin:12px 0; }
+        .wanjae-next { color:#174d83; font-size:18px; font-weight:700; margin-bottom:2px; }
+        .wanjae-meta { color:#555; font-weight:700; margin-bottom:5px; }
+        .leaflet-popup-close-button { font-size:25px !important; top:7px !important; right:8px !important; }
+        @media (max-width: 600px) {
+            .leaflet-popup-content { width: calc(100vw - 54px) !important; font-size:15px; max-height:68vh; }
+            .wanjae-popup { padding:14px 15px 16px; }
+            .wanjae-popup img { height:145px; }
+            .wanjae-title { font-size:20px; }
+        }
+
         </style>
-        <title></title>
+        <title>완재의 서울걷기 | 종로구 제5코스 - 인왕산 아래, 문학과 자연을 걷다</title>
     </head>
     <body>
         <div id="map">
@@ -139,6 +176,19 @@
         });
         layer_OpenStreetMap_0;
         map.addLayer(layer_OpenStreetMap_0);
+
+        function esc(v) {
+            if (v === null || v === undefined) return '';
+            return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+                .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+        }
+        function photoHtml(v) {
+            if (!v) return '';
+            var p = String(v).replace(/\\/g,'/').replace(/^(\.\.\/)+/,'');
+            p = p.replace(/^images\//,'');
+            return '<img src="images/' + esc(p) + '" alt="">';
+        }
+
         function pop___1(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
@@ -362,21 +412,14 @@
         bounds_group.addLayer(layer__C05_Master_C05__3);
         map.addLayer(layer__C05_Master_C05__3);
         function pop__C05_Master_C05__4(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">DESCRIPTION</th>\
-                        <td class="visible-with-data" id="DESCRIPTION">' + (feature.properties['DESCRIPTION'] !== null ? autolinker.link(String(feature.properties['DESCRIPTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">PHOTO</th>\
-                        <td class="visible-with-data" id="PHOTO">' + (feature.properties['PHOTO'] !== null ? '<img src="images/' + String(feature.properties['PHOTO']).replace(/[\\/:]/g, '_').trim().replace(/'/g, '\'').replace(/"/g, '&quot;') + '">' : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            var p = feature.properties || {};
+            var title = p.NAME || p.WEB_LABEL || '';
+            var content = '<div class="wanjae-popup">' +
+                photoHtml(p.PHOTO) +
+                (title ? '<div class="wanjae-title guide">' + esc(title) + '</div><hr class="wanjae-sep">' : '') +
+                (p.DESCRIPTION ? '<div class="wanjae-desc">' + esc(p.DESCRIPTION) + '</div>' : '') +
+                '</div>';
+            layer.bindPopup(content, { maxWidth: 400 });
         }
 
         function style__C05_Master_C05__4_0() {
@@ -416,37 +459,13 @@
         bounds_group.addLayer(layer__C05_Master_C05__4);
         map.addLayer(layer__C05_Master_C05__4);
         function pop__C05_Master_C05__5(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(String(feature.properties['fid']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SPOT_ID'] !== null ? autolinker.link(String(feature.properties['SPOT_ID']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['COURSE_NO'] !== null ? autolinker.link(String(feature.properties['COURSE_NO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['NAME'] !== null ? autolinker.link(String(feature.properties['NAME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['DESCRIPTION'] !== null ? autolinker.link(String(feature.properties['DESCRIPTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['PHOTO'] !== null ? '<img src="images/' + String(feature.properties['PHOTO']).replace(/[\\/:]/g, '_').trim().replace(/'/g, '\'').replace(/"/g, '&quot;') + '">' : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['URL'] !== null ? autolinker.link(String(feature.properties['URL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['MEMO'] !== null ? autolinker.link(String(feature.properties['MEMO']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            var p = feature.properties || {};
+            var content = '<div class="wanjae-popup">' +
+                photoHtml(p.PHOTO) +
+                (p.NAME ? '<div class="wanjae-title spot">' + esc(p.NAME) + '</div><hr class="wanjae-sep">' : '') +
+                (p.DESCRIPTION ? '<div class="wanjae-desc">' + esc(p.DESCRIPTION) + '</div>' : '') +
+                '</div>';
+            layer.bindPopup(content, { maxWidth: 400 });
         }
 
         function style__C05_Master_C05__5_0() {
@@ -487,45 +506,24 @@
         bounds_group.addLayer(layer__C05_Master_C05__5);
         map.addLayer(layer__C05_Master_C05__5);
         function pop__C05_Master_C05__6(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">NAME</th>\
-                        <td class="visible-with-data" id="NAME">' + (feature.properties['NAME'] !== null ? autolinker.link(String(feature.properties['NAME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">WEB_LABEL</th>\
-                        <td class="visible-with-data" id="WEB_LABEL">' + (feature.properties['WEB_LABEL'] !== null ? autolinker.link(String(feature.properties['WEB_LABEL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">DESCRIPTION</th>\
-                        <td class="visible-with-data" id="DESCRIPTION">' + (feature.properties['DESCRIPTION'] !== null ? autolinker.link(String(feature.properties['DESCRIPTION']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">PHOTO</th>\
-                        <td class="visible-with-data" id="PHOTO">' + (feature.properties['PHOTO'] !== null ? '<img src="images/' + String(feature.properties['PHOTO']).replace(/[\\/:]/g, '_').trim().replace(/'/g, '\'').replace(/"/g, '&quot;') + '">' : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">URL</th>\
-                        <td class="visible-with-data" id="URL">' + (feature.properties['URL'] !== null ? autolinker.link(String(feature.properties['URL']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['NEXT_POI'] !== null ? autolinker.link(String(feature.properties['NEXT_POI']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['NEXT_DIST'] !== null ? autolinker.link(String(feature.properties['NEXT_DIST']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['NEXT_TIME'] !== null ? autolinker.link(String(feature.properties['NEXT_TIME']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['NEXT_GUIDE'] !== null ? autolinker.link(String(feature.properties['NEXT_GUIDE']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            var p = feature.properties || {};
+            var title = p.WEB_LABEL || p.NAME || '';
+            var nextBlock = '';
+            if (p.NEXT_POI) {
+                nextBlock =
+                    '<hr class="wanjae-sep">' +
+                    '<div class="wanjae-next">🚶 다음 명소 → ' + esc(p.NEXT_POI) + '</div>' +
+                    ((p.NEXT_DIST || p.NEXT_TIME)
+                        ? '<div class="wanjae-meta">' + esc(p.NEXT_DIST || '') +
+                          (p.NEXT_DIST && p.NEXT_TIME ? ' · ' : '') + esc(p.NEXT_TIME || '') + '</div>' : '') +
+                    (p.NEXT_GUIDE ? '<div class="wanjae-desc">' + esc(p.NEXT_GUIDE) + '</div>' : '');
+            }
+            var content = '<div class="wanjae-popup">' +
+                photoHtml(p.PHOTO) +
+                (title ? '<div class="wanjae-title">' + esc(title) + '</div><hr class="wanjae-sep">' : '') +
+                (p.DESCRIPTION ? '<div class="wanjae-desc">' + esc(p.DESCRIPTION) + '</div>' : '') +
+                nextBlock + '</div>';
+            layer.bindPopup(content, { maxWidth: 400 });
         }
         function style__C05_Master_C05__6_0(feature) {
             var context = {
