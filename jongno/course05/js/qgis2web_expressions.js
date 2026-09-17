@@ -757,7 +757,7 @@ function fnc_project_color(values, context) {
 
 
 
-function exp__C05_Master_C05__5rule0_eval_expression(context) {
+function exp__C05_Master_C05__6rule0_eval_expression(context) {
     // POI_TYPE = 'MAIN'
 
     var feature = context.feature;
@@ -770,7 +770,7 @@ function exp__C05_Master_C05__5rule0_eval_expression(context) {
 }
 
 
-function exp__C05_Master_C05__5rule1_eval_expression(context) {
+function exp__C05_Master_C05__6rule1_eval_expression(context) {
     // POI_TYPE = 'RECOMMEND'
 
     var feature = context.feature;
