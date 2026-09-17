@@ -70,7 +70,67 @@
             .wanjae-popup img{height:145px;}
             .wanjae-title{font-size:18px;}
         }
-</style>
+
+        /* FINAL: C04 popup standard for C05 */
+        .leaflet-popup-content-wrapper{
+            border-radius:16px!important;
+            box-shadow:0 4px 18px rgba(0,0,0,.22)!important;
+            box-sizing:border-box!important;
+            overflow:hidden!important;
+        }
+        .leaflet-popup-content{
+            margin:26px 16px 16px!important;
+            width:260px!important;
+            max-width:calc(100vw - 54px)!important;
+            max-height:460px!important;
+            overflow-x:hidden!important;
+            overflow-y:auto!important;
+            box-sizing:border-box!important;
+            font-family:"맑은 고딕","Malgun Gothic",sans-serif!important;
+            font-size:14px!important;
+            line-height:1.6!important;
+            color:#292929!important;
+        }
+        .leaflet-popup-scrolled{
+            max-height:460px!important;
+            overflow-x:hidden!important;
+            overflow-y:auto!important;
+        }
+        .wanjae-popup{padding:0!important;box-sizing:border-box!important;}
+        .wanjae-popup img{
+            display:block!important;
+            width:100%!important;
+            height:170px!important;
+            object-fit:cover!important;
+            border-radius:10px!important;
+            margin:0 0 14px!important;
+        }
+        .wanjae-title{
+            color:#174d83!important;
+            font-size:19px!important;
+            font-weight:700!important;
+            line-height:1.35!important;
+            margin:0 0 10px!important;
+        }
+        .wanjae-title.guide{color:#9a5a20!important;}
+        .wanjae-title.spot{color:#555!important;}
+        .wanjae-desc{margin:0!important;}
+        .wanjae-sep{border:0!important;border-top:1px solid #d7d7d7!important;margin:12px 0!important;}
+        .wanjae-next{color:#174d83!important;font-size:16px!important;font-weight:700!important;margin-bottom:2px!important;}
+        .wanjae-meta{color:#555!important;font-weight:700!important;margin-bottom:5px!important;}
+        .leaflet-popup-close-button{font-size:25px!important;top:7px!important;right:8px!important;z-index:3!important;}
+        @media(max-width:600px){
+            .leaflet-popup-content{
+                width:260px!important;
+                max-width:calc(100vw - 54px)!important;
+                max-height:68vh!important;
+                font-size:14px!important;
+            }
+            .wanjae-popup img{height:145px!important;}
+            .wanjae-title{font-size:18px!important;}
+        }
+
+        </style>
         <title>완재의 서울걷기 | 종로구 제5코스 - 인왕산 아래, 문학과 자연을 걷다</title>
     </head>
     <body>
@@ -103,7 +163,12 @@
         map.attributionControl.setPrefix('<a href="https://github.com/qgis2web/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
         function safeText(v){return(v===null||v===undefined||String(v).toUpperCase()==='NULL')?'':String(v);}
-        function photoSrc(v){if(!v)return '';var x=String(v).replace(/\\/g,'/').trim();return 'images/'+x.split('/').pop();}
+        function photoSrc(v){
+            if(!v)return '';
+            var x=String(v).replace(/\/g,'/').trim();
+            x=x.replace(/^(\.\.\/)+/,'');
+            return x;
+        }
         function safeUrl(v){var x=safeText(v).trim();return /^https?:\/\//i.test(x)?x.replace(/"/g,'&quot;'):'';}
         // remove popup's row if "visible-with-data"
         function removeEmptyRowsFromPopupContent(content, feature) {
