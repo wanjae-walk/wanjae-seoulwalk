@@ -155,15 +155,6 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
     .gps-person-pulse{animation:none}
 }
 
-/* ===== C05 popup refinement v2 ===== */
-.leaflet-popup-content-wrapper{height:auto!important;min-height:0!important;}
-.leaflet-popup-content{height:auto!important;min-height:0!important;}
-.leaflet-popup-scrolled{height:auto!important;min-height:0!important;max-height:68vh!important;}
-@media(max-width:480px){
-  .leaflet-popup-content{margin:24px 13px 13px!important;}
-  .next-title{font-size:13px}
-  .next-meta,.next-guide{font-size:12px}
-}
 
 </style>
         <title>완재의 서울걷기 | 종로구 제5코스</title>
@@ -234,18 +225,6 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
         function safeText(v){return(v===null||v===undefined||String(v).toUpperCase()==='NULL')?'':String(v);}
         function photoSrc(v){if(!v)return '';var x=String(v).replace(/\\/g,'/').trim();return 'images/'+x.split('/').pop();}
         function safeUrl(v){var x=safeText(v).trim();return /^https?:\/\//i.test(x)?x.replace(/"/g,'&quot;'):'';}
-        function updatePopupAfterImage(layer){
-            layer.on('popupopen',function(e){
-                var el=e.popup.getElement();
-                var img=el?el.querySelector('img'):null;
-                if(!img)return;
-                if(img.complete){setTimeout(function(){e.popup.update();},0);}
-                else{
-                    img.addEventListener('load',function(){e.popup.update();},{once:true});
-                    img.addEventListener('error',function(){e.popup.update();},{once:true});
-                }
-            });
-        }
         // remove popup's row if "visible-with-data"
         function removeEmptyRowsFromPopupContent(content, feature) {
          var tempDiv = document.createElement('div');
@@ -519,7 +498,7 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
                     '<div style="font-size:17px;font-weight:bold;color:#9a6500;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid #ead58a;">'+(safeText(feature.properties['NAME'])||'이동 안내')+'</div>' +
                     '<div style="font-size:14px;line-height:1.65;color:#222;overflow-wrap:anywhere;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div>' +
                 '</div>';
-            layer.bindPopup(popupContent,{maxHeight:420,maxWidth:320,minWidth:220,keepInView:true,autoPan:true}); updatePopupAfterImage(layer);
+            layer.bindPopup(popupContent,{maxHeight:420,maxWidth:320,minWidth:220,keepInView:true,autoPan:true});
         }
 
         function style__C05_Master_C05__3_0() {
@@ -570,7 +549,7 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
                     '<div style="font-size:14px;line-height:1.65;color:#222;overflow-wrap:anywhere;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div>' +
                     urlHtml +
                 '</div>';
-            layer.bindPopup(popupContent,{maxHeight:420,maxWidth:320,minWidth:220,keepInView:true,autoPan:true}); updatePopupAfterImage(layer);
+            layer.bindPopup(popupContent,{maxHeight:420,maxWidth:320,minWidth:220,keepInView:true,autoPan:true});
         }
 
         function style__C05_Master_C05__4_0() {
@@ -624,13 +603,11 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
                 var meta=[nextDist,nextTime].filter(Boolean).join(' · ');
                 nextHtml='<div class="next-box"><div class="next-title">🚶 다음 명소 → '+nextPoi+'</div>'+(meta?'<div class="next-meta">'+meta+'</div>':'')+(nextGuide?'<div class="next-guide">'+nextGuide+'</div>':'')+'</div>';
             }
-            var urlHtml=url?'<div style="margin-top:12px;padding-top:10px;border-top:1px solid #e2e2e2;"><a href="'+url+'" target="_blank" rel="noopener noreferrer" style="color:#174a7e;font-weight:bold;text-decoration:none;">🔗 공식 홈페이지</a></div>':'';
-            var desc=safeText(feature.properties['DESCRIPTION']);
-            if(poiName.indexOf('경복궁역 3번 출구')!==-1 && nextPoi){desc='';}
-            var descHtml=desc?'<div style="font-size:14px;line-height:1.7;color:#222;overflow-wrap:anywhere;white-space:normal;">'+desc+'</div>':'';
-            var popupContent='<div style="font-family:맑은 고딕,sans-serif;width:260px;max-width:calc(100vw - 120px);box-sizing:border-box;">'+photoHtml+'<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">'+(safeText(feature.properties['WEB_LABEL'])||safeText(feature.properties['NAME']))+'</div>'+descHtml+urlHtml+nextHtml+'</div>';
-            layer.bindPopup(popupContent,{maxHeight:420,maxWidth:320,minWidth:220,keepInView:true,autoPan:true}); updatePopupAfterImage(layer);
+            var urlHtml=url?'<div style="margin-top:12px;padding-top:10px;border-top:1px solid #e2e2e2;"><a href="'+url+'" target="_blank" style="color:#174a7e;font-weight:bold;text-decoration:none;">🔗 공식 홈페이지</a></div>':'';
+            var popupContent='<div style="font-family:맑은 고딕,sans-serif;width:260px;max-width:calc(100vw - 120px);box-sizing:border-box;">'+photoHtml+'<div style="font-size:18px;font-weight:bold;color:#174a7e;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid #d9d9d9;">'+(safeText(feature.properties['WEB_LABEL'])||safeText(feature.properties['NAME']))+'</div><div style="font-size:14px;line-height:1.7;color:#222;overflow-wrap:anywhere;white-space:normal;">'+safeText(feature.properties['DESCRIPTION'])+'</div>'+urlHtml+nextHtml+'</div>';
+            layer.bindPopup(popupContent,{maxHeight:460,maxWidth:340,minWidth:240,keepInView:true,autoPan:true});
         }
+
         function style__C05_Master_C05__5_0(feature) {
             var context = {
                 feature: feature,
