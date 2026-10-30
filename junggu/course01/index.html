@@ -295,11 +295,10 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
         }
         map.createPane('pane_OpenStreetMap_0');
         map.getPane('pane_OpenStreetMap_0').style.zIndex = 400;
-        var layer_OpenStreetMap_0 = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        var layer_OpenStreetMap_0 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             pane: 'pane_OpenStreetMap_0',
             opacity: 0.7,
-            attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-            subdomains: 'abcd',
+            attribution: '&copy; OpenStreetMap contributors',
             minZoom: 1,
             maxZoom: 28,
             minNativeZoom: 0,
@@ -339,7 +338,7 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
                 lineJoin: 'bevel',
                 weight: 3.0,
                 fillOpacity: 0,
-                interactive: true,
+                interactive: false,
             }
         }
         map.createPane('pane_Course__1');
@@ -347,7 +346,7 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
         map.getPane('pane_Course__1').style['mix-blend-mode'] = 'normal';
         var layer_Course__1 = new L.geoJson(json_Course__1, {
             attribution: '',
-            interactive: true,
+            interactive: false,
             dataVar: 'json_Course__1',
             layerName: 'layer_Course__1',
             pane: 'pane_Course__1',
@@ -416,7 +415,7 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
                 dashArray: '',
                 lineCap: 'round',
                 lineJoin: 'round',
-                weight: 7.0,
+                weight: 5.0,
                 fillOpacity: 0,
                 interactive: false,
             }
@@ -429,7 +428,7 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
                 dashArray: '',
                 lineCap: 'round',
                 lineJoin: 'round',
-                weight: 8.0,
+                weight: 6.0,
                 fillOpacity: 0,
                 interactive: false,
             }
@@ -677,15 +676,15 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
                 fill: true,
                 fillOpacity: 1,
                 fillColor: 'rgba(145,82,45,0.0)',
-                interactive: true,
+                interactive: false,
             }
         }
         map.createPane('pane__6');
-        map.getPane('pane__6').style.zIndex = 406;
+        map.getPane('pane__6').style.zIndex = 401;
         map.getPane('pane__6').style['mix-blend-mode'] = 'normal';
         var layer__6 = new L.geoJson(json__6, {
             attribution: '',
-            interactive: true,
+            interactive: false,
             dataVar: 'json__6',
             layerName: 'layer__6',
             pane: 'pane__6',
