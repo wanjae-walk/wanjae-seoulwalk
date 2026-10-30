@@ -295,10 +295,13 @@ html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#
         }
         map.createPane('pane_OpenStreetMap_0');
         map.getPane('pane_OpenStreetMap_0').style.zIndex = 400;
+        // OpenStreetMap standard tiles: restoration test (no API key).
+        // Use only in accordance with https://operations.osmfoundation.org/policies/tiles/.
         var layer_OpenStreetMap_0 = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             pane: 'pane_OpenStreetMap_0',
-            opacity: 0.7,
-            attribution: '',
+            opacity: 1.0,
+            referrerPolicy: 'strict-origin-when-cross-origin',
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap contributors</a>',
             minZoom: 1,
             maxZoom: 28,
             minNativeZoom: 0,
